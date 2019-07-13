@@ -25,7 +25,7 @@
 <style scoped lang="scss">
 
   .appbar {
-    position: fixed;
+    position: relative;
     width: 100%;
     height: 48px;
     display: flex;
@@ -34,7 +34,8 @@
     justify-content: space-between;
     z-index: 2;
     padding: 0 16px;
-    box-shadow: 0 2px 4px 0 rgba(#000, 0.08);
+    box-sizing: border-box;
+    /*box-shadow: 0 2px 4px 0 rgba(#000, 0.08);*/
     background: #ffffff;
   }
 
@@ -46,6 +47,7 @@
 
   .menu {
     margin-right: 32px;
+
     a {
       font-weight: bold;
       color: #9f9f9f;
