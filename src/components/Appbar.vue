@@ -1,23 +1,24 @@
 <template>
   <div class="appbar">
     <SVGLogo class="logo" @click="$router.push('/')"/>
-    <nav class="menu">
-      <router-link to="/project">工程</router-link>
-      <router-link to="/article">文章</router-link>
-      <router-link to="/design">设计</router-link>
-      <router-link to="/about">关于我</router-link>
-    </nav>
-    <div></div>
+    <div class="menu">
+      <router-link to="/work">WORK</router-link>
+      <router-link to="/blog">BLOG</router-link>
+      <router-link to="/about">ABOUT</router-link>
+      <SVGMenu class="menu--button"/>
+    </div>
   </div>
 </template>
 
 <script>
-  import SVGLogo from '@/assets/logo.svg'
+  import SVGLogo from '@/assets/icon/ic_logo.svg'
+  import SVGMenu from '@/assets/icon/ic_menu.svg'
 
   export default {
     name: "Appbar",
     components: {
-      SVGLogo
+      SVGLogo,
+      SVGMenu
     }
   }
 </script>
@@ -35,32 +36,41 @@
     z-index: 2;
     padding: 0 16px;
     box-sizing: border-box;
-    /*box-shadow: 0 2px 4px 0 rgba(#000, 0.08);*/
-    background: #ffffff;
+    background: #000000;
+    user-select: none;
   }
 
   .logo {
+    flex: 0 0 auto;
     width: 36px;
     height: 36px;
     cursor: pointer;
   }
 
   .menu {
-    margin-right: 32px;
+    flex: 0 0 auto;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
 
     a {
-      font-weight: bold;
-      color: #9f9f9f;
+      font-weight: 600;
+      color: #ffffff;
       margin: 0 12px;
       text-decoration: none;
 
       &.router-link-exact-active {
-        color: #000;
+        color: rgba(#ffffff, 0.8);
       }
 
       &:hover {
-        color: #000;
+        color: rgba(#ffffff, 0.8);
       }
+    }
+
+    .menu--button {
+      cursor: pointer;
+      margin-left: 12px;
     }
   }
 

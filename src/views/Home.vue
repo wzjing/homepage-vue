@@ -1,38 +1,35 @@
 <template>
   <div class="home">
-    <div class="video-cover">
-      <video src="intro.mp4" muted loop width="100%" height="100%">
-
-      </video>
-      <div class="play-button">
+    <div class="poster-layout">
+      <SVGPoster class="poster--view"/>
+      <div class="play--button">
         <SVGPlay/>
         <div class="play-button--text">介绍</div>
       </div>
     </div>
 
-    <div class="work-list">
-      <div class="work-list--title">LATEST WORK</div>
-      <div class="work-list--works">
-        <div class="work" v-for="(work,index)  in works" :key="index">
-          <img :src="work.cover" class="work--cover" width="100%" height="100%"/>
-          <div class="work--content">
-            <div class="work--title">{{work.title}}</div>
-            <div class="work--description">{{work.description}}</div>
-          </div>
+    <div class="work-layout">
+      <div class="work-title">LATEST WORK</div>
+      <div class="work-list">
+        <div class="work-item" v-for="(work,index)  in works" :key="index"
+             :style="{backgroundImage: 'url(' + work.cover + ')'}">
+          <div class="work-item--title">{{work.title}}</div>
+          <div class="work-item--description">{{work.description}}</div>
         </div>
 
-        <div class="work--more">MORE</div>
+        <div class="work-list--more">MORE</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import SVGPlay from '@/assets/ic_play.svg'
-  import PNGCover1 from '@/assets/cover1.png'
-  import PNGCover2 from '@/assets/cover2.png'
-  import PNGCover3 from '@/assets/cover3.png'
-  import PNGCover4 from '@/assets/cover4.png'
+  import SVGPlay from '@/assets/icon/ic_play.svg'
+  import SVGPoster from '@/assets/img/poster.svg'
+  import PNGCover1 from '@/assets/article/cover1.jpg'
+  import PNGCover2 from '@/assets/article/cover2.jpg'
+  import PNGCover3 from '@/assets/article/cover3.jpg'
+  import PNGCover4 from '@/assets/article/cover4.png'
 
   export default {
     name: 'home',
@@ -51,136 +48,137 @@
           },
           {
             cover: PNGCover3,
-            title: 'OpenGL ES Introduce',
+            title: 'OpenGL ES Native',
             description: '在Android Native中使用OpenGL ES'
           },
           {
             cover: PNGCover4,
-            title: 'Material Design UX',
+            title: 'Material UX',
             description: '为你的App添加Material Design规范的用户交互动画'
           }
         ]
       }
     },
     components: {
-      SVGPlay
-    },
-    updated() {
-      let el = document.querySelector('.video-cover')
-      let width = window.getComputedStyle(el, null).getPropertyValue('width').replace('px', '')
-      el.style.height = `${width*3/4}px`
-      console.log(`width: ${width}`)
+      SVGPlay,
+      SVGPoster
     }
   }
 </script>
 
 <style scoped lang="scss">
   .home {
+    flex: 1 1 auto;
     position: relative;
     width: 100%;
-    height: 100%;
     display: flex;
     flex-flow: column;
-    align-items: flex-start;
-    padding: 0 20px;
+    align-items: center;
+    padding: 0 20px 20px;
     box-sizing: border-box;
   }
 
-  .video-cover {
+  .poster-layout {
     position: relative;
-    background: #ffffff;
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 60px 40px;
     box-sizing: border-box;
+    background-image: url("../assets/img/dots.jpg");
+    background-size: cover;
 
-    video {
-      background: #ffffff;
-      object-fit: cover;
-      object-position: center;
+    @media screen and (max-width: 500px) {
+      padding: 20px 12px;
+      height: 80vw;
     }
   }
 
-  .play-button {
-    position: absolute;
-    display: flex;
+  .poster--view {
+    flex: 1 1 auto;
+    width: 100%;
+    align-self: center;
+    user-select: none;
+  }
+
+  .play--button {
+    flex: 0 0 auto;
+    align-self: flex-end;
+    display: inline-flex;
     flex-flow: row;
     align-items: center;
-    padding: 8px 14px;
-    background: #ffffff;
-    right: 10%;
-    bottom: 10%;
+    padding: 4px 12px;
+    background: #0058FF;
     cursor: pointer;
     user-select: none;
     border-radius: 2px;
-    box-shadow: 0 2px 10px 0 rgba(#000000, 0.16);
   }
 
   .play-button--text {
     margin-left: 10px;
-    color: #434343;
+    color: #ffffff;
     font-size: 14px;
   }
 
-  .work-list {
+  .work-layout {
+    position: relative;
+    flex: 0 0 auto;
+    width: 100%;
+    align-self: flex-start;
     display: flex;
     flex-flow: column;
-    margin-top: 10px;
+    margin-top: 20px;
+    box-sizing: border-box;
   }
 
-  .work-list--title {
+  .work-title {
     text-align: start;
     font-size: 16px;
-    color: #000;
+    color: #fff;
   }
 
-  .work-list--works {
+  .work-list {
+    position: relative;
     margin-top: 8px;
     display: flex;
     flex-flow: row;
+
+    @media screen and (max-width: 500px) {
+      flex-flow: column;
+    }
   }
 
-  .work {
+  .work-item {
+    flex: 0 0 20%;
+    height: 100%;
     position: relative;
-    margin-right: 4px;
-    width: 22vw;
-    height: 18vw;
-    background: #474747;
+    margin: 0 4px 0 0;
+    padding: 10% 14px 16px;
+    background-size: cover;
     cursor: pointer;
-    user-select: none;
-    &:hover {
-      box-shadow: 0 2px 10px 0 rgba(#000000, 0.16);
-    }
-  }
-
-  .work--cover {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 80%;
-
-    &:hover {
-      opacity: 100%;
-    }
-  }
-
-  .work--content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    padding: 16px 14px;
-    box-sizing: border-box;
     display: flex;
     flex-flow: column;
     align-items: flex-start;
     justify-content: flex-end;
-    max-lines: 2;
+    user-select: none;
+
+    @media screen and (max-width: 500px) {
+      flex: 0 0 40vw;
+      width: auto;
+      margin: 0 0 10px 0;
+
+    }
   }
 
-  .work--title {
+  .work-item--title {
     font-size: 16px;
     color: #ffffff;
+    font-weight: bold;
   }
 
-  .work--description {
+  .work-item--description {
     margin-top: 6px;
     width: 100%;
     height: 32px;
@@ -192,15 +190,21 @@
     overflow: hidden;
   }
 
-  .work--more {
+  .work-list--more {
     display: inline-block;
     align-self: center;
     height: 16px;
+    color: #fff;
     font-size: 14px;
     line-height: 16px;
     transform-origin: center;
     transform: rotate(90deg);
     user-select: none;
+    cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+      transform: rotate(0deg);
+    }
   }
 
 </style>

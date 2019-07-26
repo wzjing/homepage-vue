@@ -25,18 +25,25 @@
   }
 
   body {
+    position: relative;
     padding: 0;
     margin: 0;
     width: 100%;
     height: 100%;
+    background: black;
   }
 
   #app {
+    max-width: 1280px;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    color: #ffffff;
     display: flex;
     flex-flow: column;
   }

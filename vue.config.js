@@ -9,7 +9,13 @@ module.exports = {
       .use('vue-svg-loader')
       .loader('vue-svg-loader').options({
       svgo: {
+        full: true,
         plugins: [
+          {
+            inlineStyles:  {
+              onlyMatchedOnce: false
+            }
+          },
           {
             cleanupIDs: {
               remove: false,
@@ -17,11 +23,10 @@ module.exports = {
               prefix: {
                 toString() {
                   this.counter = this.counter || 0;
-
                   return `id_${this.counter++}`;
                 }
               }
-            },
+            }
           }
         ],
       },

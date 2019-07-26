@@ -15,21 +15,15 @@ export default new Router({
     },
 
     {
-      path: '/project',
-      name: 'project',
-      component: () => import(/* webpackChunkName: "project" */ './views/Project.vue')
+      path: '/work',
+      name: 'work',
+      component: () => import(/* webpackChunkName: "work" */ './views/Work.vue')
     },
 
     {
-      path: '/article',
-      name: 'article',
-      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue')
-    },
-
-    {
-      path: '/design',
-      name: 'design',
-      component: () => import(/* webpackChunkName: "design" */ './views/Design.vue')
+      path: '/blog',
+      name: 'blog',
+      component: () => import(/* webpackChunkName: "blog" */ './views/Blog.vue')
     },
 
     {

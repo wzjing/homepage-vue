@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 400 300">
+    <defs>
+        <style>
+            .text-path {
+            stroke: #CFCFCF;
+            stroke-width: 0.5px;
+            fill: none;
+            font-size: 60px;
+            font-weight: bold;
+            }
+
+            .text-code {
+            stroke: #ffffff;
+            fill: #000000;
+            fill-opacity: 0.8;
+            }
+
+            .grid {
+            stroke: #989898;
+            stroke-width: 0.5px;
+            }
+        </style>
+        <clipPath id="c-design">
+            <text x="20" y="100" class="text-path" style="text-anchor: start;">
+                Design
+            </text>
+        </clipPath>
+        <symbol id="grid">
+            <g transform="translate(-20, 30)">
+                <line transform="translate(1, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(6, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(11, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(16, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(21, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(26, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(31, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(36, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(41, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(46, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(51, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+                <line transform="translate(56, 0)" x1="50" y1="=0" x2="0" y2="100" class="grid"/>
+            </g>
+        </symbol>
+    </defs>
+
+    <g clip-path="url(#c-design)">
+        <use href="#grid" transform="translate(0, 0)"/>
+        <use href="#grid" transform="translate(60, 0)"/>
+        <use href="#grid" transform="translate(120, 0)"/>
+        <use href="#grid" transform="translate(180, 0)"/>
+    </g>
+
+    <text x="20" y="100" class="text-path" style="text-anchor: start;">
+        Design
+    </text>
+
+    <text class="text-path" x="240" y="100" style="text-anchor: start;">
+        &amp;
+    </text>
+
+    <text class="text-path text-code" x="380" y="220" style="text-anchor: end;">
+        Code
+    </text>
+</svg>
