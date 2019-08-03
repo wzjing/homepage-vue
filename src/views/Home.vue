@@ -1,131 +1,189 @@
 <template>
-  <div class="home">
+  <div id="home">
     <div class="poster-layout">
       <SVGPoster class="poster--view"/>
-      <div class="play--button">
-        <SVGPlay/>
-        <div class="play-button--text">介绍</div>
-      </div>
     </div>
 
     <div class="work-layout">
       <div class="work-title">LATEST WORK</div>
       <div class="work-list">
-        <div class="work-item" v-for="(work,index)  in works" :key="index"
-             :style="{backgroundImage: 'url(' + work.cover + ')'}">
-          <div class="work-item--title">{{work.title}}</div>
-          <div class="work-item--description">{{work.description}}</div>
-        </div>
-
-        <div class="work-list--more">MORE</div>
+        <component class="work-item"
+                   v-for="(value, index) in works"
+                   :key="index"
+                   :title="value.title"
+                   :brief="value.brief"
+                   :cover="value.cover"
+                   :tags="value.tags"
+                   :is="value.com"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Article from '@/components/Article.vue'
+  import Image from '@/components/Image.vue'
+  import Animation from '@/components/Animation.vue'
   import SVGPlay from '@/assets/icon/ic_play.svg'
   import SVGPoster from '@/assets/img/poster.svg'
-  import PNGCover1 from '@/assets/article/cover1.jpg'
-  import PNGCover2 from '@/assets/article/cover2.jpg'
-  import PNGCover3 from '@/assets/article/cover3.jpg'
-  import PNGCover4 from '@/assets/article/cover4.png'
+  import IMGCode from '@/assets/article/code.jpg'
+  import IMGCamera from '@/assets/article/camera.jpg'
+  import IMGOpenGLES from '@/assets/article/opengles.jpg'
+  import IMGMaterialDesign from '@/assets/article/material-design.jpg'
+  import AnimGame from '@/assets/animation/game.mp4'
 
   export default {
     name: 'home',
+    components: {
+      SVGPlay,
+      SVGPoster
+    },
     data() {
       return {
         works: [
           {
-            cover: PNGCover1,
-            title: 'ANDROID MVVM',
-            description: '使用谷歌官方的MVVM框架构建程序结构'
+            com: Article,
+            title: 'What\'s New in Android MVVM 2019?',
+            brief: '使用谷歌官方的MVVM框架构建程序结构',
+            cover: IMGCode,
+            tags: [
+              'ANDROID',
+              'MVVM'
+            ]
           },
           {
-            cover: PNGCover2,
-            title: '硬件编码',
-            description: '利用Android的硬件加速视频编码'
+            com: Article,
+            title: 'Use GPU to Accelerate Video Encode',
+            brief: '利用Android的硬件加速视频编码',
+            cover: IMGCamera,
+            tags: [
+              'ENCODE',
+              'GPU'
+            ]
           },
           {
-            cover: PNGCover3,
-            title: 'OpenGL ES Native',
-            description: '在Android Native中使用OpenGL ES'
+            com: Article,
+            title: 'OpenGL ES in Android Native',
+            brief: '在Android Native中使用OpenGL ES',
+            cover: IMGOpenGLES,
+            tags: [
+              'OPEN-GL',
+              'GRAPHIC'
+            ]
           },
           {
-            cover: PNGCover4,
-            title: 'Material UX',
-            description: '为你的App添加Material Design规范的用户交互动画'
+            com: Article,
+            title: 'Google Material Design UX Introduce',
+            brief: '为你的App添加Material Design规范的用户交互动画',
+            cover: IMGMaterialDesign,
+            tags: [
+              'DESIGN',
+              'UX'
+            ]
+          },
+          {
+            com: Image,
+            title: 'Art of Code',
+            brief: 'A picture of code',
+            cover: IMGCode,
+            tags: [
+              'DESIGN',
+              'UX'
+            ]
+          },
+          {
+            com: Image,
+            title: 'Art of Code',
+            brief: 'A picture of code',
+            cover: IMGCode,
+            tags: [
+              'DESIGN',
+              'UX'
+            ]
+          },
+          {
+            com: Animation,
+            title: 'The Crew',
+            brief: 'UBISOFT made this sandbox racing game with open world. ',
+            cover: AnimGame,
+            tags: [
+              'DESIGN',
+              'UX'
+            ]
           }
         ]
       }
-    },
-    components: {
-      SVGPlay,
-      SVGPoster
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .home {
+
+  @import "../styles/theme.scss";
+
+  #home {
+    width: var(--content-width);
     flex: 1 1 auto;
     position: relative;
-    width: 100%;
     display: flex;
     flex-flow: column;
     align-items: center;
-    padding: 0 20px 20px;
     box-sizing: border-box;
+
+    @media screen and (min-width: 1200px) {
+      width: 1200px;
+    }
+
+    @media screen and (min-width: 800px) and (max-width: 1199px) {
+      width: 800px;
+    }
+
+    @media screen and (min-width: 501px) and (max-width: 799px) {
+      width: 400px;
+    }
+
+    @media screen and (max-width: 500px) {
+      width: 360px;
+    }
   }
 
   .poster-layout {
     position: relative;
     flex: 1 1 auto;
-    width: 100%;
+    width: calc(100% - 40px);
     display: flex;
     flex-flow: column;
     align-items: center;
-    padding: 60px 40px;
+    justify-content: center;
     box-sizing: border-box;
-    background-image: url("../assets/img/dots.jpg");
-    background-size: cover;
+    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
+    margin: 20px;
+
+    @media screen and (min-width: 800px) {
+      height: 600px;
+    }
+
+    @media screen and (min-width: 501px) and (max-width: 799px) {
+      height: 400px;
+    }
 
     @media screen and (max-width: 500px) {
-      padding: 20px 12px;
-      height: 80vw;
+      height: 280px;
+      width: 320px;
     }
   }
 
   .poster--view {
-    flex: 1 1 auto;
+    flex: 0 0 100%;
     width: 100%;
-    align-self: center;
     user-select: none;
-  }
-
-  .play--button {
-    flex: 0 0 auto;
-    align-self: flex-end;
-    display: inline-flex;
-    flex-flow: row;
-    align-items: center;
-    padding: 4px 12px;
-    background: #0058FF;
-    cursor: pointer;
-    user-select: none;
-    border-radius: 2px;
-  }
-
-  .play-button--text {
-    margin-left: 10px;
-    color: #ffffff;
-    font-size: 14px;
+    font-family: PosterFont, serif;
   }
 
   .work-layout {
     position: relative;
     flex: 0 0 auto;
-    width: 100%;
+    width: auto;
     align-self: flex-start;
     display: flex;
     flex-flow: column;
@@ -135,76 +193,22 @@
 
   .work-title {
     text-align: start;
-    font-size: 16px;
-    color: #fff;
+    font-size: 18px;
+    color: #4f4f4f;
+    margin: 0 0 0 20px;
   }
 
   .work-list {
     position: relative;
-    margin-top: 8px;
+    margin: 10px 0 0;
     display: flex;
     flex-flow: row;
-
-    @media screen and (max-width: 500px) {
-      flex-flow: column;
-    }
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
   .work-item {
-    flex: 0 0 20%;
-    height: 100%;
-    position: relative;
-    margin: 0 4px 0 0;
-    padding: 10% 14px 16px;
-    background-size: cover;
-    cursor: pointer;
-    display: flex;
-    flex-flow: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-    user-select: none;
-
-    @media screen and (max-width: 500px) {
-      flex: 0 0 40vw;
-      width: auto;
-      margin: 0 0 10px 0;
-
-    }
-  }
-
-  .work-item--title {
-    font-size: 16px;
-    color: #ffffff;
-    font-weight: bold;
-  }
-
-  .work-item--description {
-    margin-top: 6px;
-    width: 100%;
-    height: 32px;
-    line-height: 16px;
-    font-size: 14px;
-    color: #ACACAC;
-    text-align: start;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
-  .work-list--more {
-    display: inline-block;
-    align-self: center;
-    height: 16px;
-    color: #fff;
-    font-size: 14px;
-    line-height: 16px;
-    transform-origin: center;
-    transform: rotate(90deg);
-    user-select: none;
-    cursor: pointer;
-
-    @media screen and (max-width: 500px) {
-      transform: rotate(0deg);
-    }
+    flex: 0 0 auto;
   }
 
 </style>

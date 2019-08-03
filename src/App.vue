@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Appbar/>
-    <router-view/>
+    <Appbar id="appbar"/>
+    <router-view class="router-layout"/>
   </div>
 </template>
 
@@ -17,34 +17,43 @@
 
 <style lang="scss">
 
+  @import "styles/theme.scss";
+
   html {
     padding: 0;
     margin: 0;
     width: 100%;
     height: 100%;
+    background-color: #fcfcfc;
   }
 
   body {
-    position: relative;
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 100%;
-    background: black;
+    height: auto;
   }
 
   #app {
-    max-width: 1280px;
+    @include font();
+    position: relative;
     margin: auto;
     width: 100%;
-    height: 100%;
+    height: auto;
     box-sizing: border-box;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #ffffff;
-    display: flex;
-    flex-flow: column;
+    color: #000000;
   }
+
+  #appbar {
+    position: fixed;
+    top: 0;
+  }
+
+  .router-layout {
+    margin: 64px auto 0;
+  }
+
 </style>

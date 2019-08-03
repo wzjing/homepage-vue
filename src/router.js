@@ -15,15 +15,15 @@ export default new Router({
     },
 
     {
-      path: '/work',
-      name: 'work',
-      component: () => import(/* webpackChunkName: "work" */ './views/Work.vue')
+      path: '/work-design',
+      name: 'work-design',
+      component: () => import(/* webpackChunkName: "works" */ './views/Work-Design.vue')
     },
 
     {
-      path: '/blog',
-      name: 'blog',
-      component: () => import(/* webpackChunkName: "blog" */ './views/Blog.vue')
+      path: '/articles',
+      name: 'articles',
+      component: () => import(/* webpackChunkName: "blog" */ './views/Articles.vue')
     },
 
     {
