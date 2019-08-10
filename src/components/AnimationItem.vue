@@ -29,7 +29,7 @@
 
 <script>
   export default {
-    name: 'AnimationCard',
+    name: 'AnimationItem',
     props: {
       cover: String,
       title: String,
@@ -58,7 +58,7 @@
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: space-between;
     background-color: #ffffff;
     box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
     user-select: none;
@@ -81,9 +81,13 @@
   .animation--cover {
     flex: 1 1 auto;
     width: 100%;
-    height: auto;
+    height: 320px;
     object-fit: cover;
     pointer-events: none;
+
+    @media screen and (max-width: 500px) {
+      height: 240px;
+    }
   }
 
   .animation--content {
@@ -110,6 +114,11 @@
     font-size: 14px;
     text-align: start;
     margin-top: 10px;
+    line-height: 18px;
+    max-height: 36px;
+    max-lines: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .animation--separator {

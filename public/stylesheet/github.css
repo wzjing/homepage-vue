@@ -7,15 +7,14 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .hljs {
   display: block;
   overflow-x: auto;
-  padding: 0.5em;
+  padding: .5em 0 .5em 2em;
   color: #333;
-  background: #f8f8f8;
+  background: #fcfcfc;
 }
 
 .hljs-comment,
 .hljs-quote {
   color: #998;
-  font-style: italic;
 }
 
 .hljs-keyword,

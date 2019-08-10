@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <img class="image--cover" :src="cover" alt="IMG">
+    <img class="image--cover" :src="'/img/1x/' + cover" alt="IMG">
     <div class="image--content">
       <div class="image--title">
         {{title}}
@@ -40,7 +40,7 @@
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: space-between;
     background-color: #ffffff;
     box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
     user-select: none;
@@ -62,9 +62,13 @@
 
   .image--cover {
     flex: 1 1 auto;
+    height: 320px;
     width: 100%;
-    height: auto;
     object-fit: cover;
+
+    @media screen and (max-width: 500px) {
+      height: 240px;
+    }
   }
 
   .image--content {
@@ -91,6 +95,11 @@
     font-size: 14px;
     text-align: start;
     margin-top: 10px;
+    line-height: 18px;
+    max-height: 36px;
+    max-lines: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .image--separator {

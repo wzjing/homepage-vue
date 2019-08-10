@@ -4,6 +4,7 @@
     <div class="menu">
       <router-link
               v-for="(menu, index) in menus"
+              :key="index"
               :to="menu.path">
         {{menu.name}}
       </router-link>
@@ -27,8 +28,8 @@
             name: 'ARTICLES'
           },
           {
-            path: '/work-design',
-            name: 'WORK & DESIGN'
+            path: '/works',
+            name: 'CODE & DESIGN'
           },
           {
             path: '/about',

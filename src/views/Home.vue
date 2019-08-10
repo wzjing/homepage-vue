@@ -1,36 +1,35 @@
 <template>
   <div id="home">
-    <div class="poster-layout">
-      <SVGPoster class="poster--view"/>
+    <div class="starter-layout">
+      <div class="starter-title">Welcome to my Blog</div>
+      <div class="starter-brief">This is a blog about android develop, web develop, ux design and production
+      </div>
     </div>
 
     <div class="work-layout">
-      <div class="work-title">LATEST WORK</div>
       <div class="work-list">
-        <component class="work-item"
-                   v-for="(value, index) in works"
-                   :key="index"
-                   :title="value.title"
-                   :brief="value.brief"
-                   :cover="value.cover"
-                   :tags="value.tags"
-                   :is="value.com"/>
+        <router-link class="work-item"
+                     v-for="(value, index) in dataArray"
+                     :key="index"
+                     :to="value.url">
+          <component :title="value.title"
+                     :brief="value.brief"
+                     :cover="value.cover"
+                     :tags="value.tags"
+                     :is="getComponent(value.type)"/>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Article from '@/components/Article.vue'
-  import Image from '@/components/Image.vue'
-  import Animation from '@/components/Animation.vue'
+  import axios from 'axios'
+  import ArticleItem from '@/components/ArticleItem.vue'
+  import ImageItem from '@/components/ImageItem.vue'
+  import AnimationItem from '@/components/AnimationItem.vue'
   import SVGPlay from '@/assets/icon/ic_play.svg'
   import SVGPoster from '@/assets/img/poster.svg'
-  import IMGCode from '@/assets/article/code.jpg'
-  import IMGCamera from '@/assets/article/camera.jpg'
-  import IMGOpenGLES from '@/assets/article/opengles.jpg'
-  import IMGMaterialDesign from '@/assets/article/material-design.jpg'
-  import AnimGame from '@/assets/animation/game.mp4'
 
   export default {
     name: 'home',
@@ -40,79 +39,47 @@
     },
     data() {
       return {
-        works: [
-          {
-            com: Article,
-            title: 'What\'s New in Android MVVM 2019?',
-            brief: '使用谷歌官方的MVVM框架构建程序结构',
-            cover: IMGCode,
-            tags: [
-              'ANDROID',
-              'MVVM'
-            ]
-          },
-          {
-            com: Article,
-            title: 'Use GPU to Accelerate Video Encode',
-            brief: '利用Android的硬件加速视频编码',
-            cover: IMGCamera,
-            tags: [
-              'ENCODE',
-              'GPU'
-            ]
-          },
-          {
-            com: Article,
-            title: 'OpenGL ES in Android Native',
-            brief: '在Android Native中使用OpenGL ES',
-            cover: IMGOpenGLES,
-            tags: [
-              'OPEN-GL',
-              'GRAPHIC'
-            ]
-          },
-          {
-            com: Article,
-            title: 'Google Material Design UX Introduce',
-            brief: '为你的App添加Material Design规范的用户交互动画',
-            cover: IMGMaterialDesign,
-            tags: [
-              'DESIGN',
-              'UX'
-            ]
-          },
-          {
-            com: Image,
-            title: 'Art of Code',
-            brief: 'A picture of code',
-            cover: IMGCode,
-            tags: [
-              'DESIGN',
-              'UX'
-            ]
-          },
-          {
-            com: Image,
-            title: 'Art of Code',
-            brief: 'A picture of code',
-            cover: IMGCode,
-            tags: [
-              'DESIGN',
-              'UX'
-            ]
-          },
-          {
-            com: Animation,
-            title: 'The Crew',
-            brief: 'UBISOFT made this sandbox racing game with open world. ',
-            cover: AnimGame,
-            tags: [
-              'DESIGN',
-              'UX'
-            ]
-          }
-        ]
+        dataArray: []
       }
+    },
+    methods: {
+      getComponent(type) {
+        switch (type) {
+          case 0:
+            return ArticleItem
+          case 1:
+            return ImageItem
+          case 2:
+            return AnimationItem
+        }
+      },
+      arrayToString(arr) {
+        let arrStr = ''
+        arr.forEach((value, index)=>{
+          arrStr += value
+          if (index < arr.length - 1) {
+            arrStr += '|'
+          }
+        })
+        return arrStr
+      }
+    },
+    mounted() {
+      let vm = this
+      axios.get('/data/article.json')
+        .then(res => {
+          let articles = res.data.data
+          axios.get('/data/work.json')
+            .then(res => {
+              vm.dataArray = articles.concat(res.data.data)
+            })
+            .catch(err =>{
+              console.log(err)
+            })
+        })
+        .catch(err =>{
+          console.log(err)
+        })
     }
   }
 </script>
@@ -122,7 +89,7 @@
   @import "../styles/theme.scss";
 
   #home {
-    width: var(--content-width);
+    width: 1200px;
     flex: 1 1 auto;
     position: relative;
     display: flex;
@@ -147,37 +114,31 @@
     }
   }
 
-  .poster-layout {
+  .starter-layout {
     position: relative;
     flex: 1 1 auto;
-    width: calc(100% - 40px);
+    align-self: start;
     display: flex;
     flex-flow: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     box-sizing: border-box;
-    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
-    margin: 20px;
-
-    @media screen and (min-width: 800px) {
-      height: 600px;
-    }
-
-    @media screen and (min-width: 501px) and (max-width: 799px) {
-      height: 400px;
-    }
-
-    @media screen and (max-width: 500px) {
-      height: 280px;
-      width: 320px;
-    }
+    text-align: start;
+    margin: 36px 20px 20px;
   }
 
-  .poster--view {
-    flex: 0 0 100%;
-    width: 100%;
-    user-select: none;
-    font-family: PosterFont, serif;
+  .starter-title {
+    font-size: 2.0em;
+    font-weight: 300;
+    color: #2d2d2d;
+    text-align: left;
+  }
+
+  .starter-brief {
+    margin-top: 16px;
+    font-size: 1.6em;
+    color: #9f9f9f;
+    text-align: left;
   }
 
   .work-layout {
@@ -209,6 +170,7 @@
 
   .work-item {
     flex: 0 0 auto;
+    text-decoration: none;
   }
 
 </style>

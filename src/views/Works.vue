@@ -16,15 +16,17 @@
       </div>
     </div>
     <div class="content-list">
-      <component
-              class="content-item"
-              v-for="(value, index) in filterList"
-              :key="index"
-              :title="value.title"
-              :brief="value.brief"
-              :cover="value.cover"
-              :tags="value.tags"
-              :is="value.com"/>
+      <router-link class="content-item"
+                   v-for="(value, index) in works"
+                   :key="index"
+                   :to="value.url">
+        <component
+                :title="value.title"
+                :brief="value.brief"
+                :cover="value.cover"
+                :tags="value.tags"
+                :is="getComponent(value.type)"/>
+      </router-link>
     </div>
   </div>
 </template>
@@ -32,13 +34,10 @@
 <script>
   import AnimationItem from '@/components/AnimationItem.vue'
   import ImageItem from '@/components/ImageItem.vue'
-  import IMGCode from '@/assets/article/code.jpg'
-  import IMGCamera from '@/assets/article/camera.jpg'
-  import IMGOpenGLES from '@/assets/article/opengles.jpg'
-  import IMGMaterialDesign from '@/assets/article/material-design.jpg'
+  import axios from 'axios'
 
   export default {
-    name: "work-design",
+    name: "Works",
     data() {
       return {
         filterIndex: 0,
@@ -49,73 +48,52 @@
           "WORK",
           "DESIGN"
         ],
-        articles: [
-          {
-            com: ImageItem,
-            title: 'What\'s New in Android MVVM 2019?',
-            brief: '使用谷歌官方的MVVM框架构建程序结构',
-            cover: IMGCode,
-            tags: [
-              'ANDROID',
-              'MVVM'
-            ]
-          },
-          {
-            com: ImageItem,
-            title: 'Use GPU to Accelerate Video Encode',
-            brief: '利用Android的硬件加速视频编码',
-            cover: IMGCamera,
-            tags: [
-              'ANDROID',
-              'MEDIA'
-            ]
-          },
-          {
-            com: ImageItem,
-            title: 'OpenGL ES in Android Native',
-            brief: '在Android Native中使用OpenGL ES',
-            cover: IMGOpenGLES,
-            tags: [
-              'OPENGL',
-              'ANDROID'
-            ]
-          },
-          {
-            com: ImageItem,
-            title: 'Google Material Design UX Introduce',
-            brief: '为你的App添加Material Design规范的用户交互动画',
-            cover: IMGMaterialDesign,
-            tags: [
-              'DESIGN',
-              'ANDROID'
-            ]
-          },
-          {
-            com: ImageItem,
-            title: 'Google Material Design UX Introduce',
-            brief: '为你的App添加Material Design规范的用户交互动画',
-            cover: IMGMaterialDesign,
-            tags: [
-              'DESIGN',
-              'ANDROID'
-            ]
+        works: []
+      }
+    },
+    methods: {
+      getComponent(type) {
+        switch(type) {
+          case 1:
+            return ImageItem
+          case 2:
+            return AnimationItem
+        }
+      },
+      arrayToString(arr) {
+        let arrStr = ''
+        arr.forEach((value, index)=>{
+          arrStr += value
+          if (index < arr.length - 1) {
+            arrStr += '|'
           }
-        ]
+        })
+        return arrStr
       }
     },
     computed: {
       filterList: function () {
         let vue = this
         if (vue.filters[vue.filterIndex] === "ALL") {
-          return vue.articles
+          return vue.works
         } else {
-          return vue.articles.filter((item) => {
+          return vue.works.filter((item) => {
             return item.tags.find((tag) => {
               return vue.filters[vue.filterIndex] === tag
             })
           })
         }
       }
+    },
+    mounted() {
+      let vm = this
+      axios.get('/data/work.json')
+        .then(res => {
+          vm.works = res.data.data
+        })
+        .catch(err =>{
+          console.log(err)
+        })
     }
   }
 </script>
@@ -242,6 +220,7 @@
 
   .content-item {
     flex: 0 0 auto;
+    text-decoration: none;
   }
 
 </style>

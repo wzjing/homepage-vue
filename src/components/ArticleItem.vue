@@ -7,7 +7,7 @@
       <div class="article--brief">
         {{brief}}
       </div>
-      <img class="article--cover" :src="cover" alt="IMG">
+      <img class="article--cover" :src="'/img/1x/' + cover" alt="IMG">
     </div>
     <div class="article--separator"></div>
     <div class="article--tags">
@@ -20,7 +20,7 @@
 
 <script>
   export default {
-    name: 'ArticleCard',
+    name: 'ArticleItem',
     props: {
       title: String,
       brief: String,
@@ -90,6 +90,10 @@
     width: 100%;
     height: 160px;
     object-fit: cover;
+
+    @media screen and (max-width: 500px) {
+      height: 140px;
+    }
   }
 
   .article--separator {

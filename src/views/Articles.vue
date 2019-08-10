@@ -16,29 +16,27 @@
       </div>
     </div>
     <div class="content-list">
-      <Article
-              v-for="(value, index) in filterList"
-              :key="index"
-              :title="value.title"
-              :brief="value.brief"
-              :cover="value.cover"
-              :tags="value.tags"
-              class="content-item"/>
+      <router-link class="content-item"
+                   v-for="(value, index) in filterList"
+                   :key="index"
+                   :to="value.url">
+        <ArticleItem :title="value.title"
+                     :brief="value.brief"
+                     :cover="value.cover"
+                     :tags="value.tags"/>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-  import Article from '@/components/Article.vue'
-  import IMGCode from '@/assets/article/code.jpg'
-  import IMGCamera from '@/assets/article/camera.jpg'
-  import IMGOpenGLES from '@/assets/article/opengles.jpg'
-  import IMGMaterialDesign from '@/assets/article/material-design.jpg'
+  import ArticleItem from '@/components/ArticleItem.vue'
+  import axios from 'axios'
 
   export default {
     name: "Articles",
     components: {
-      Article
+      ArticleItem
     },
     data() {
       return {
@@ -51,53 +49,7 @@
           "OPENGL",
           "WEB"
         ],
-        articles: [
-          {
-            title: 'What\'s New in Android MVVM 2019?',
-            brief: '使用谷歌官方的MVVM框架构建程序结构',
-            cover: IMGCode,
-            tags: [
-              'ANDROID',
-              'MVVM'
-            ]
-          },
-          {
-            title: 'Use GPU to Accelerate Video Encode',
-            brief: '利用Android的硬件加速视频编码',
-            cover: IMGCamera,
-            tags: [
-              'ANDROID',
-              'MEDIA'
-            ]
-          },
-          {
-            title: 'OpenGL ES in Android Native',
-            brief: '在Android Native中使用OpenGL ES',
-            cover: IMGOpenGLES,
-            tags: [
-              'OPENGL',
-              'ANDROID'
-            ]
-          },
-          {
-            title: 'Google Material Design UX Introduce',
-            brief: '为你的App添加Material Design规范的用户交互动画',
-            cover: IMGMaterialDesign,
-            tags: [
-              'DESIGN',
-              'ANDROID'
-            ]
-          },
-          {
-            title: 'Google Material Design UX Introduce',
-            brief: '为你的App添加Material Design规范的用户交互动画',
-            cover: IMGMaterialDesign,
-            tags: [
-              'DESIGN',
-              'ANDROID'
-            ]
-          }
-        ]
+        articles: []
       }
     },
     computed: {
@@ -113,6 +65,28 @@
           })
         }
       }
+    },
+    methods: {
+      arrayToString(arr) {
+        let arrStr = ''
+        arr.forEach((value, index) => {
+          arrStr += value
+          if (index < arr.length - 1) {
+            arrStr += '|'
+          }
+        })
+        return arrStr
+      }
+    },
+    mounted() {
+      let vm = this
+      axios.get('/data/article.json')
+        .then(res => {
+          vm.articles = res.data.data
+        })
+        .catch(err =>{
+          console.log(err)
+        })
     }
   }
 </script>
@@ -238,6 +212,7 @@
 
   .content-item {
     flex: 0 0 auto;
+    text-decoration: none;
   }
 
 </style>

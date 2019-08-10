@@ -15,21 +15,33 @@ export default new Router({
     },
 
     {
-      path: '/work-design',
-      name: 'work-design',
-      component: () => import(/* webpackChunkName: "works" */ './views/Work-Design.vue')
+      path: '/works',
+      name: 'code-design',
+      component: () => import(/* webpackChunkName: "works" */ './views/Works.vue')
     },
 
     {
       path: '/articles',
       name: 'articles',
-      component: () => import(/* webpackChunkName: "blog" */ './views/Articles.vue')
+      component: () => import(/* webpackChunkName: "articles" */ './views/Articles.vue')
     },
 
     {
       path: '/about',
       name: 'about',
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+    },
+
+    {
+      path: '/article/:id',
+      name: 'article',
+      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue')
+    },
+
+    {
+      path: '/work/:id',
+      name: 'work',
+      component: () => import(/* webpackChunkName: "work" */ './views/Work.vue')
     }
   ]
 })

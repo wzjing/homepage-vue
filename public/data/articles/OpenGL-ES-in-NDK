@@ -40,7 +40,7 @@ target_link_libraries(native-lib log android EGL GLESv3)
     }
 }
 </code></pre>
-<p>在native-lib中创建对应的实现</p>
+<h2>编写Native实现</h2>
 <pre><code class='language-c++' lang='c++'>#include &lt;jni.h&gt;
 #include &lt;cstdlib&gt;
 #include &lt;ctime&gt;

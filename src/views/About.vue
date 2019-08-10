@@ -2,66 +2,55 @@
   <div id="about">
     <div class="interview">
 
-      <div class="interview--top-line"></div>
-
       <div class="interview--title">Android Developer</div>
 
       <div class="interview--profile">
         <div class="interview--pair">
-          <div class="interview--name">位置</div>
-          <div class="interview--value">北京</div>
+          <div class="interview--name">LOCATION</div>
+          <div class="interview--value">{{location}}</div>
         </div>
         <div class="interview--pair">
-          <div class="interview--name">开发经验</div>
-          <div class="interview--value">3 年</div>
+          <div class="interview--name">EXPERIENCE</div>
+          <div class="interview--value">{{experience}} Yr.</div>
         </div>
         <div class="interview--pair">
-          <div class="interview--name">电子邮件</div>
-          <div class="interview--value interview--email">wzjing103@163.com</div>
+          <div class="interview--name">EMAIL</div>
+          <div class="interview--value interview--email">{{mail}}</div>
         </div>
       </div>
 
       <div class="interview--skill">
-        <div class="interview--name">能力</div>
+        <div class="interview--name">SKILL</div>
         <div class="interview--skill--list">
           <div class="interview--skill--item"
                v-for="(value, index) in abilities"
                :key="index">
-            <img class="interview--skill--item--icon"
-                 :src="value.logo"
-                 alt="ICON"/>
-            <div class="interview--skill--item--name">
-              {{value.brief}}
-            </div>
+            {{value.name}}
           </div>
         </div>
       </div>
 
       <div class="interview--project">
-        <div class="interview--name">上线项目</div>
+        <div class="interview--name">APPS</div>
         <div class="interview--project--list">
-          <a class="interview--project--item"
+          <router-link class="interview--project--item"
              v-for="(value, index) in apps"
              :key="index"
-             :href="value.url"
-             target="_blank">
+             :to="value.url">
             <img class="interview--project--item--icon"
                  width="40px"
                  height="40px"
                  :src="value.logo"
                  :alt="value.name"/>
-            <div class="interview--project--item--name">
-              {{value.name}}
-            </div>
-          </a>
+          </router-link>
         </div>
       </div>
 
-      <div class="interview--button button" @click="sendEmail">发送邮件</div>
+      <div class="interview--button button" @click="sendEmail">HIRE ME</div>
     </div>
 
     <div class="interview--button-layout">
-      <div class="interview--button--float button" @click="sendEmail">发送邮件</div>
+      <div class="interview--button--float button" @click="sendEmail">HIRE ME</div>
     </div>
   </div>
 </template>
@@ -80,41 +69,41 @@
     name: 'About',
     data() {
       return {
-        location: '北京',
+        location: 'BEIJING',
         experience: 3,
         mail: 'wzjing@163.com',
         abilities: [
           {
-            logo: ICUX,
-            brief: "动画和交互"
+            brief: "动画和交互",
+            name: "UX"
           },
           {
-            logo: ICNative,
-            brief: "Native"
+            brief: "Native",
+            name: "Native"
           },
           {
-            logo: ICOpenGL,
-            brief: "OpenGL编程"
+            brief: "OpenGL编程",
+            name: "OpenGL"
           },
           {
-            logo: ICFFmpeg,
-            brief: "音视频编解码"
+            brief: "音视频编解码",
+            name: "FFmpeg"
           },
           {
-            logo: ICJs,
-            brief: "Web App"
+            brief: "Web App",
+            name: "WebApp"
           }
         ],
         apps: [
           {
-            name: '品各',
+            name: 'Binge',
             logo: ICBinge,
-            url: 'https://soft.shouji.com.cn/down/139356.html'
+            url: '/work/binge'
           },
           {
-            name: '飞赴',
+            name: 'Fro',
             logo: ICFro,
-            url: 'http://theappfro.com/'
+            url: '/work/fro'
           }
         ]
       }
@@ -128,6 +117,9 @@
 </script>
 
 <style scoped lang="scss">
+
+  @import '../styles/theme.scss';
+
   #about {
     width: 820px;
     display: flex;
@@ -199,7 +191,7 @@
   .interview--name {
     font-size: 16px;
     font-weight: bold;
-    width: 88px;
+    width: 120px;
     text-align: left;
   }
 
@@ -255,30 +247,14 @@
     flex-flow: column;
     align-items: center;
     justify-content: flex-start;
-    margin: 0 24px 0 0;
+    color: #6e6e6e;
+    margin: 16px 24px 16px 0;
+    font-size: 16px;
+    font-weight: 300;
+
     @media screen and (max-width: 819px) {
       margin: 0 0 10px 0;
       flex-flow: row;
-    }
-  }
-
-  .interview--skill--item--icon {
-    width: 80px;
-    height: 80px;
-
-    @media screen and (max-width: 819px) {
-      width: 48px;
-      height: 48px;
-    }
-  }
-
-  .interview--skill--item--name {
-    width: auto;
-    margin: 8px 0 0 0;
-    font-size: 12px;
-    color: #000;
-    @media screen and (max-width: 819px) {
-      margin: 0 0 0 8px;
     }
   }
 

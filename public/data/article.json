@@ -12,9 +12,9 @@
       ]
     },
     {
-      "url": "/article/Build-FFmpeg-For-Android",
-      "title": "OpenGL ES Native",
-      "brief": "基于Android Native实现的OpenGL框架，包括常用Shader的的编译渲染以及obj模型的加载",
+      "url": "/article/OpenGL-ES-in-NDK",
+      "title": "OpenGL ES in NDK",
+      "brief": "在Android NDK中使用OpenGL ES",
       "cover": "opengl.jpg",
       "type": 0,
       "tags": [

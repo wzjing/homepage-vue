@@ -1,9 +1,4 @@
-<!doctype html>
-<html>
-<head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>2019 What&#39;s New in Android</title></head>
-<body><blockquote><p>Google I/O 2019技术发布会已于2019年5月7日-9日进行完毕。Google向大家展示了过去一年中Google的技术方向，并为Google的开发者们带来了一系列的新技术，本文总结了大会上与Android开发相关的各个要点。</p>
+<blockquote><p>Google I/O 2019技术发布会已于2019年5月7日-9日进行完毕。Google向大家展示了过去一年中Google的技术方向，并为Google的开发者们带来了一系列的新技术，本文总结了大会上与Android开发相关的各个要点。</p>
 </blockquote>
 <h2>Jetpack</h2>
 <p>Jetpack是Android开发的一系列工具集，发布于2018年的I/O大会上。Jetpack包含了一系列的Android支持库，包括：基本开发工具、工程框架、设备行为管理、用户界面设计等，可以兼容旧版本Android。本次I/O大会带了更多的新特性。</p>
@@ -43,6 +38,3 @@
 </li>
 
 </ul>
-<p>&nbsp;</p>
-</body>
-</html>

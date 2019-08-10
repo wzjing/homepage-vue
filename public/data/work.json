@@ -44,7 +44,7 @@
       ]
     },
     {
-      "url": "work/balloon",
+      "url": "/work/balloon",
       "title": "Balloon",
       "brief": "an express delivery app",
       "cover": "balloon.jpg",
@@ -56,7 +56,7 @@
       ]
     },
     {
-      "url": "work/dashboard",
+      "url": "/work/dashboard",
       "title": "Dashboard",
       "brief": "manage background server affairs",
       "cover": "dashboard.jpg",

@@ -2,17 +2,14 @@ module.exports = {
   lintOnSave: false,
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');
-
     svgRule.uses.clear();
 
-    svgRule
-      .use('vue-svg-loader')
-      .loader('vue-svg-loader').options({
+    svgRule.use('vue-svg-loader').loader('vue-svg-loader').options({
       svgo: {
         full: true,
         plugins: [
           {
-            inlineStyles:  {
+            inlineStyles: {
               onlyMatchedOnce: false
             }
           },
