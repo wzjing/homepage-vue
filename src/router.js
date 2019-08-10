@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Article from './views/Article.vue'
+import Articles from './views/Articles.vue'
+import Work from './views/Work.vue'
+import Works from './views/Works.vue'
+import About from './views/About.vue'
 
 Vue.use(Router)
 
@@ -17,31 +22,31 @@ export default new Router({
     {
       path: '/works',
       name: 'code-design',
-      component: () => import(/* webpackChunkName: "works" */ './views/Works.vue')
+      component: Works
     },
 
     {
       path: '/articles',
       name: 'articles',
-      component: () => import(/* webpackChunkName: "articles" */ './views/Articles.vue')
+      component: Articles
     },
 
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About
     },
 
     {
       path: '/article/:id',
       name: 'article',
-      component: () => import(/* webpackChunkName: "article" */ './views/Article.vue')
+      component: Article
     },
 
     {
       path: '/work/:id',
       name: 'work',
-      component: () => import(/* webpackChunkName: "work" */ './views/Work.vue')
+      component: Work
     }
   ]
 })
