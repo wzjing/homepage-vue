@@ -30,8 +30,8 @@
 </template>
 
 <script>
-  import Animation from '@/components/Animation.vue'
-  import Image from '@/components/Image.vue'
+  import AnimationItem from '@/components/AnimationItem.vue'
+  import ImageItem from '@/components/ImageItem.vue'
   import IMGCode from '@/assets/article/code.jpg'
   import IMGCamera from '@/assets/article/camera.jpg'
   import IMGOpenGLES from '@/assets/article/opengles.jpg'
@@ -39,9 +39,6 @@
 
   export default {
     name: "work-design",
-    components: {
-      Image
-    },
     data() {
       return {
         filterIndex: 0,
@@ -54,7 +51,7 @@
         ],
         articles: [
           {
-            com: Image,
+            com: ImageItem,
             title: 'What\'s New in Android MVVM 2019?',
             brief: '使用谷歌官方的MVVM框架构建程序结构',
             cover: IMGCode,
@@ -64,7 +61,7 @@
             ]
           },
           {
-            com: Image,
+            com: ImageItem,
             title: 'Use GPU to Accelerate Video Encode',
             brief: '利用Android的硬件加速视频编码',
             cover: IMGCamera,
@@ -74,7 +71,7 @@
             ]
           },
           {
-            com: Image,
+            com: ImageItem,
             title: 'OpenGL ES in Android Native',
             brief: '在Android Native中使用OpenGL ES',
             cover: IMGOpenGLES,
@@ -84,7 +81,7 @@
             ]
           },
           {
-            com: Image,
+            com: ImageItem,
             title: 'Google Material Design UX Introduce',
             brief: '为你的App添加Material Design规范的用户交互动画',
             cover: IMGMaterialDesign,
@@ -94,7 +91,7 @@
             ]
           },
           {
-            com: Image,
+            com: ImageItem,
             title: 'Google Material Design UX Introduce',
             brief: '为你的App添加Material Design规范的用户交互动画',
             cover: IMGMaterialDesign,
