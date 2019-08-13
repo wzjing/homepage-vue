@@ -1,31 +1,27 @@
 <template>
-  <div id="work-design">
+  <div id="works">
     <div class="filter">
-      <div class="filter--title">
-        Articles
-      </div>
+      <div class="filter--title">Code & Design</div>
       <div class="filter--list">
-        <div
-                v-for="(value, index) in filters"
-                :key="index"
-                class="filter--item"
-                :class="{'filter--item--selected' : filterIndex === index}"
-                @click="filterIndex = index">
+        <div v-for="(value, index) in filters"
+             :key="index"
+             class="filter--item"
+             :class="{'filter--item--selected' : filterIndex === index}"
+             @click="filterIndex = index">
           {{value}}
         </div>
       </div>
     </div>
     <div class="content-list">
       <router-link class="content-item"
-                   v-for="(value, index) in works"
+                   v-for="(value, index) in filterList"
                    :key="index"
                    :to="value.url">
-        <component
-                :title="value.title"
-                :brief="value.brief"
-                :cover="value.cover"
-                :tags="value.tags"
-                :is="getComponent(value.type)"/>
+        <component :title="value.title"
+                   :brief="value.brief"
+                   :cover="value.cover"
+                   :tags="value.tags"
+                   :is="getComponent(value.type)"/>
       </router-link>
     </div>
   </div>
@@ -43,17 +39,30 @@
         filterIndex: 0,
         filters: [
           "ALL",
-          "PERSONAL",
-          "ONLINE",
-          "WORK",
-          "DESIGN"
+          "DESIGN",
+          "PROJECT",
+          "PUBLISHED"
         ],
         works: []
       }
     },
+    computed: {
+      filterList: function () {
+        let vm = this
+        if (vm.filters[vm.filterIndex] === "ALL") {
+          return vm.works
+        } else {
+          return vm.works.filter((item) => {
+            return item.tags.find((tag) => {
+              return vm.filters[vm.filterIndex] === tag
+            })
+          })
+        }
+      }
+    },
     methods: {
       getComponent(type) {
-        switch(type) {
+        switch (type) {
           case 1:
             return ImageItem
           case 2:
@@ -62,7 +71,7 @@
       },
       arrayToString(arr) {
         let arrStr = ''
-        arr.forEach((value, index)=>{
+        arr.forEach((value, index) => {
           arrStr += value
           if (index < arr.length - 1) {
             arrStr += '|'
@@ -71,27 +80,13 @@
         return arrStr
       }
     },
-    computed: {
-      filterList: function () {
-        let vue = this
-        if (vue.filters[vue.filterIndex] === "ALL") {
-          return vue.works
-        } else {
-          return vue.works.filter((item) => {
-            return item.tags.find((tag) => {
-              return vue.filters[vue.filterIndex] === tag
-            })
-          })
-        }
-      }
-    },
     mounted() {
       let vm = this
       axios.get('/data/work.json')
         .then(res => {
           vm.works = res.data.data
         })
-        .catch(err =>{
+        .catch(err => {
           console.log(err)
         })
     }
@@ -100,7 +95,7 @@
 
 <style scoped lang="scss">
 
-  #work-design {
+  #works {
     display: flex;
     padding-top: 54px;
     flex-flow: row;

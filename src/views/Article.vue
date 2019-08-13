@@ -1,5 +1,5 @@
 <template>
-  <div id="article">
+  <div id="article" ref="article">
     <div class="article-title">{{title}}</div>
     <div class="article-tags">
       <div class="article-tag"
@@ -8,7 +8,7 @@
         #{{value}}
       </div>
     </div>
-    <div ref="content">
+    <div ref="article_content">
     </div>
   </div>
 </template>
@@ -22,7 +22,8 @@
     data() {
       return {
         title: "",
-        tags: []
+        tags: [],
+        content: ""
       }
     },
     mounted() {
@@ -40,25 +41,33 @@
       document.head.appendChild(highlightCss)
 
       // load data
-      axios.get('/data/article.json')
-        .then(res => {
-          let article = res.data.data.find(item => { return item.url === vm.$route.path})
-          vm.title = article.title
-          vm.tags = article.tags
-          // load content
-          axios.get('/data/articles/' + vm.$route.params.id)
-            .then(res => {
-              vm.$refs.content.innerHTML = res.data
-              document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightBlock(block)
-              })
-            })
-            .catch(err => {
-              console.log(err)
-            })
+      axios({
+        method: 'get',
+        url: '/data/article.json',
+        responseType: 'json'
+      }).then(res => {
+        let article = res.data.data.find(item => {
+          return item.url === vm.$route.path
         })
+        vm.title = article.title
+        vm.tags = article.tags
+        // load content
+        axios({
+          method: 'get',
+          url: '/data/articles/' + vm.$route.params.id + '.txt',
+          responseType: 'text'
+        }).then(res => {
+          vm.$refs.article_content.innerHTML = res.data
+          document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block)
+          })
+        })
+          .catch(err => {
+            vm.$refs.article_content.innerHTML = err
+          })
+      })
         .catch(err => {
-          vm.$refs.content.innerHTML = err
+          vm.$refs.article.innerHTML = err
         })
     }
   }
@@ -67,7 +76,7 @@
 <style scoped lang="scss">
 
   html {
-    background-color: #ffffff;
+    background: #ffffff;
   }
 
   #article {
@@ -75,6 +84,8 @@
     max-width: 800px;
     text-align: left;
     padding: 16px 0 48px;
+    background: #ffffff;
+    box-sizing: border-box;
   }
 
   .article-title {
@@ -84,7 +95,7 @@
   }
 
   .article-tags {
-    margin: 10px 0 0;
+    margin: 10px 0 48px;
     display: flex;
     flex-flow: row;
     color: #ff9700;

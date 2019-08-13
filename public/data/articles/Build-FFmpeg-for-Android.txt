@@ -1,0 +1,78 @@
+<h2>编译环境</h2>
+<p>由于Android是Linux内核，最好选择Linux环境进行编译。本文的所有工作均在Ubuntu 18.0.4 LTS完成。</p>
+<p>软件包：</p>
+<ul>
+<li>git</li>
+<li>ndk R20</li>
+<li>make</li>
+</ul>
+<p>由于NDK已经包含了所有工具链，因此我们不在需要额外的安装gcc或clang了</p>
+<h2>准备源码</h2>
+<ul>
+<li>ffmpeg仓库地址：https://git.ffmpeg.org/ffmpeg.git</li>
+</ul>
+<pre><code>git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg-build/ffmpeg
+</code></pre>
+<h2>初始化编译环境</h2>
+<p>我们需要将ndk的工具链地址暴露给ffmpeg的编译脚本</p>
+<pre><code class="bash"># 进入工作目录
+cd ffmpeg-build
+
+# 设置abi版本
+CROSS_PREFIX=arm64
+# 最低api版本
+MIN_API=21
+# ndk位置
+NDK_ROOT=/path/to/ndk
+TOOLCHAIN=$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64
+
+
+# 最好使用clang进行编译，Google已经抛弃了gcc
+export CC=${CROSS_PREFIX}${MIN_API}-clang
+export CXX=${CROSS_PREFIX}${MIN_API}-clang++
+export AR=$CROSS_PREFIX-ar
+export AS=$CC
+export LD=$CROSS_PREFIX-ld
+export STRIP=$CROSS_PREFIX-strip
+export PATH=$PATH:$TOOLCHAIN/bin
+</code></pre>
+<h2>配置ffmpeg选项</h2>
+<p>通过ffmpeg源码中的config文件启用或者关闭功能，添加编译和链接的参数</p>
+<pre><code class="bash"># 进入ffmpeg源码目录
+
+EXTRA_CFLAGS=&quot;-fPIC -fPIE&quot;
+EXTRA_LDFLAGS=&quot;-fpie&quot;
+PREFIX=`pwd`/build/arm64
+LOG_FILE=$PREFIX/build.log
+
+cd ffmpeg/
+
+./config --enable-gpl \
+    --enable-version3 \
+    --enable-nonfree \
+    --target-os=android \
+    --disable-static \
+    --enable-shared \
+    --enable-pic \
+    --arch=arm64 \
+    --prefix=$PREFIX \
+    --sysroot=$TOOLCHAIN/sysroot \
+    --enable-small \
+    --disable-programs \
+    --disable-doc \
+    --enable-debug \
+    --enable-mediacodec \
+    --enable-jni \
+    --logfile=$LOG_FILE \
+    --enable-cross-compile \
+    --cross-prefix=${CROSS_PREFIX}- \
+    --extra-cflags=&quot;$EXTRA_CFLAGS&quot; \
+    --extra-ldflags=&quot;$EXTRA_LDFLAGS&quot;
+</code></pre>
+<h2>编译</h2>
+<pre><code class="bash">make clean
+make -j 4
+make install
+</code></pre>
+<h2>使用</h2>
+<p>编译结果存放在了ffmpeg/build目录下，包括动态库文件和头文件。将动态库和头文件放入Android Studio工程下的jniLibs目录，并在CMakeLists.txt中导入即可使用。</p>

@@ -1,0 +1,25 @@
+<blockquote><p>ffmpeg是一个相对比较复杂的库，入门难度要比一般的库高得多。笔者也是花了将近一年的时间才完全搞懂了ffmpeg的设计理念。对初学者来说，直接上手代码并不是一个好的选择，尤其是因为音视频编码的原理本身就比较复杂，而C语言繁琐的语法则让入门变得更加困难，本文将以自身经验谈谈如何入门ffmpeg。</p>
+</blockquote>
+<h2>音视频原理</h2>
+<p>要想了解ffmpeg的设计理念，首先要明白一些基础的音视频编码知识。比如，YUV和PCM、H264和AAC、声道、音轨、码率、封装格式等概念。编解码本质就是数据格式的转换，弄明白这些格式的原理，才能更快的掌握ffmpeg的使用方法。</p>
+<p>比如从图片编码成Mp4视频的过程：首先，我们将原始的图片数据转换成YUV格式，比如YUV420P；然后创建一个Mp4结构体，并从结构体中获取到支持的编码器，比如H264，然后在其中创建一个视频流；写入Mp4封装格式的文件头，使用编码器将图片编码并写入视频流；最后，关闭输入流，写入Mp4格式的文件尾。这样就会生成一个含义一个视频流的Mp4文件。如果掌握了编码的原理，这个过程看起来会十分简单。</p>
+<h2>内存和语法</h2>
+<p>ffmpeg是一个纯C的库，在语法上是完全的面向过程的设计结构。而接触ffmpeg的大都是软件工程师，接触更多的是类似于java、swift、js或C++11等面向对象的语言，大多都不涉及内存管理，在学习ffmpeg时难免会遇到语法上的难题。ffmpeg中大部分操作都与结构体有关，结构体又经常涉及到内存获取和释放操作。因此，我们平时使用ffmpeg时会频繁的涉及到内存相关的语法，稍有慎就容易引发内存溢出、空指针、编码错误等问题。ffmpeg涉及的高频语法有内存管理、结构体、多级指针、数组。</p>
+<h2>标准代码</h2>
+<p>网上有许多ffmpeg的相关教程，但是并不是所有的教程都是正确或者说最新的教程。有许多教程其实使用的还是ffmpeg 3.0或更早的版本。而目前ffmpeg已经更新到了4.2，许多的实现都已经与先前不同。比如av_register_all()、avcodec_decode_video2()、avcodec_decode_audio4()等函数早已被标记为deprecated，早就不用了，而网上很多所谓最新教程还在使用这些方法。因此，初学者阅读ffmpeg教程一定要看清是否为最新版本4.0+，否则可能会浪费时间。推荐先阅读ffmpeg的<a href='http://ffmpeg.org/doxygen/4.1/examples.html'>官方示例</a>，其中包含几个比较有用的例子：</p>
+<ul>
+<li>demuxing_decoding.c 解封装并解码，输入完整视频文件，输出YUV和PCM文件</li>
+<li>decode_video.c 视频解码，输入视频裸流，输出YUV图像数据</li>
+<li>decode_audio.c 音频解码，输入音频裸流，输出PCM音频数据</li>
+<li>encode_video.c 视频编码，输入YUV文件，输出视频裸流</li>
+<li>encode_audio.c 音频编码，输入PCM文件，输出音频裸流</li>
+<li>muxing 封装为视频，输入视频和音频流，输出一个完整的视频文件</li>
+<li>metadata.c 获取或添加媒体文件的metadata信息</li>
+<li>filter_audio.c 使用音频滤镜处理音频</li>
+<li>filtering_audio.c 实时处理并显示音频波形</li>
+<li>filtering_video.c 实时处理并显示视频图像</li>
+
+</ul>
+<h2>开发环境</h2>
+<p>首选的开发环境时Linux，其次是Mac和Win10下的WSL。如果比较熟悉VS，也可以自行搭建VS工程。不推荐纯Windows环境的理由之一就是因为pkgconfig这个功能完全无法在Windows环境下使用，而ffmpeg是高度依赖这个功能的。并且Windows下的库管理十分混乱，ffmpeg经常需要依赖大量的第三方库来实现功能，配置过程会十分繁琐。而Linux和Mac下的软件包管理系统可以相对简单的解决第三方库的依赖问题。</p>
+<p>要自行编译ffmpeg的话，需要对C语言的编译知识有一定的了解。产品级的工程几乎不会使用ffmpeg内置的音视频编码器，自行编译ffmpeg时一般都需要加入流行的第三方编码器，比如libx264、libx265、lib-fdk-aac等等。如果对ffmpeg体积不敏感的话，可以直接使用已经编译好的库文件，Linux和Mac可以直接从软件包管理器获取到开发包和执行文件，Windows可以从<a href='https://ffmpeg.zeranoe.com/builds/'>zeronoe</a>下载。</p>

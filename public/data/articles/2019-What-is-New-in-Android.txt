@@ -1,0 +1,40 @@
+<blockquote><p>Google I/O 2019技术发布会已于2019年5月7日-9日进行完毕。Google向大家展示了过去一年中Google的技术方向，并为Google的开发者们带来了一系列的新技术，本文总结了大会上与Android开发相关的各个要点。</p>
+</blockquote>
+<h2>Jetpack</h2>
+<p>Jetpack是Android开发的一系列工具集，发布于2018年的I/O大会上。Jetpack包含了一系列的Android支持库，包括：基本开发工具、工程框架、设备行为管理、用户界面设计等，可以兼容旧版本Android。本次I/O大会带了更多的新特性。</p>
+<ul>
+<li><p>SharedPreference</p>
+<p>旧的API已被标记为Deprecated，现在SharedPreference使用一个单独的XML文件来实现更系统的数据管理。</p>
+</li>
+<li><p>CameraX</p>
+<p>鉴于Camera2 API的复杂性，Google开发了CameraX API对操作Camera2 API实现了简化，让开发者可以更简单的控制相机，大会上还用国产应用Camera360进行了演示。CameraX支持硬件厂商对其进行扩展，如添加HDR模式、夜间模式等等，开发者通过CameraX的API来检测是否支持某项扩展。</p>
+</li>
+<li><p>Architecture更新</p>
+<p>对Kotlin的语法支持更加完善，将来将会将对kotlin的支持放到第一位，kotlin也将会获得与其语法相关的专属API；DataBinding升级到了ViewBinding，支持直接通过注解获取到View的实例等一系列新特性；Room添加了对kotlin协程的支持；SavedState提供持久化的状态存储；WorkManager的API小幅更新，以及今年下半年将会开始支持前台服务等；Room增加了字符串搜索、自定义Transition、组合操作等。</p>
+</li>
+<li><p>Constraint 2.0</p>
+<p>ConstraintLayout 2.0的alpha已经发布了一段时间，其中为开发者带来了许多重量级的更新，如基于关键帧的动画、VirtualLayout、ConstraintSet等等，此次发布会则展示了ConstraintLayout 2.0的beta版。用发布会演讲者的话说，Google的beta版就是正式版。所以这此发布会也算是对ConstraintLayout 2.0正式版功能的一次发布。</p>
+</li>
+<li><p>ViewPager2</p>
+<p>基于RecyclerView实现的新一代的ViewPager，提供了诸多常用的新特性。</p>
+</li>
+<li><p>Compose</p>
+<p>Compose是本次Jetpack的重大更新，Compose允许开发者在代码中十分简便的创建UI，有点类似于Anko的SDL布局。开发者可以在代码中使用compose十分简单的利用简单控件组合出复杂的控件而无需再去为类似的需求去开发自定义控件。</p>
+</li>
+
+</ul>
+<h2>UI</h2>
+<p>Android Q对添加了一些新的API来丰富View的显示效果</p>
+<ul>
+<li><p>RenderNode</p>
+<p>RenderNode是Android中View绘制的内部实现。Android Q提供了直接操作RenderNode的API，RenderNode可以像图层一样被使用，RenderNode也可以实现在Canvas中绘制阴影。</p>
+</li>
+<li><p>HardwareRender</p>
+</li>
+<li><p>HardwareRender可以将RenderNode渲染到一个Surface上，并且提供一个控制光源的选项。</p>
+</li>
+<li><p>Hardware Bitmap</p>
+<p>HadwareBitmap是Android 8.0添加的一个利用GPU而非JVM加载图片资源的一个功能，Android Q中对Hardware Bitmap进行了更新，包括：Bitmap可以生成到一个HardwareBuffer中；频繁的加载Bitmap不会导致重复的读取资源；可以将Surface用作Bitmap等。</p>
+</li>
+
+</ul>

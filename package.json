@@ -5,8 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:test": "serve -s dist",
     "lint": "vue-cli-service lint",
-    "deploy": "deploy.sh",
+    "deploy": ".\\deploy.bat",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },

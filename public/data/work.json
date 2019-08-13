@@ -3,23 +3,25 @@
     {
       "url": "/work/binge",
       "title": "Binge -- Online chat",
-      "brief": "品各(Binge)是一款以AR为核心的在线交友APP",
+      "brief": "Binge(品各)是一款以AR为核心的交友APP，包括美食分享，好友配对，地图寻宝，暂已下线",
       "cover": "binge.jpg",
       "type": 1,
       "tags": [
         "PROJECT",
-        "ANDROID"
+        "ANDROID",
+        "PUBLISHED"
       ]
     },
     {
       "url": "/work/fro",
       "title": "Fro -- Express Delivery",
-      "brief": "飞赴(Fro)是一款生活服务应用，以快递O2O模式为核心打造的多样化的生活周边服务",
+      "brief": "Fro(飞赴)是一款以快递O2O模式为核心打造的多样化周边服务的APP，已上线各大应用商店",
       "cover": "fro.jpg",
       "type": 1,
       "tags": [
         "PROJECT",
-        "ANDROID"
+        "ANDROID",
+        "PUBLISHED"
       ],
       "links": [
         {
@@ -46,7 +48,7 @@
     {
       "url": "/work/balloon",
       "title": "Balloon",
-      "brief": "an express delivery app",
+      "brief": "快递APP，UI和UX概念设计",
       "cover": "balloon.jpg",
       "type": 1,
       "tags": [
@@ -58,7 +60,7 @@
     {
       "url": "/work/dashboard",
       "title": "Dashboard",
-      "brief": "manage background server affairs",
+      "brief": "后台事务管理，数据统计",
       "cover": "dashboard.jpg",
       "type": 1,
       "tags": [

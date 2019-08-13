@@ -1,0 +1,220 @@
+<blockquote><p>OpenGL通常会涉及到很多的计算和I/O操作，在java中使用OpenGL并不是一个明智的选择。在Android中可以通过jni实现在Native中调用OpenGL ES的API。</p>
+</blockquote>
+<h2>新建Native的工程</h2>
+<p>新建一个Android Native工程。修改CMakeLists文件的如下部分：</p>
+<pre><code class='language-shell' lang='shell'># 添加OpenGL ES相关的库
+target_link_libraries(native-lib log android EGL GLESv3)
+</code></pre>
+<p>修改完CMakeLists.txt文件一定要使用Build-&gt;Refresh Linked C++ Projects选项刷新工程。</p>
+<h2>准备GLSurfaceView</h2>
+<p>创建一个GLSurfaceView的子类，如下：</p>
+<pre><code class='language-kotlin' lang='kotlin'>class GLESView(context: Context): GLSurfaceView(context) {
+    private val renderer = Renderer()
+    
+    init {
+        setEGLContextClientVersion(3)
+    }
+    
+    inner class Renderer: GLSurfaceView.Renderer {
+        override fun onSurfaceCreated(gl: GL10?, config: EGLConfig) {
+            // do nothing
+        }
+        
+        override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
+            initGLES(width, height)
+        }
+        
+        override fun onDrawFrame(gl: GL10?) {
+            step()
+        }
+    }
+    
+    // Native 调用的方法
+    external fun initGLES(width: Int, height: Int)
+    external fun step()
+    
+    companion object {
+        init {
+            System.loadLibrary(&quot;native-lib&quot;)
+        }
+    }
+}
+</code></pre>
+<h2>编写Native实现</h2>
+<pre><code class='language-c++' lang='c++'>#include &lt;jni.h&gt;
+#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+#include &lt;math.h&gt;
+#include &lt;EGL/egl.h&gt;
+
+bool setGraphics(JNIEnv *env, int w, int h, jobject bitmap);
+void renderFrame()
+
+extern &quot;C&quot; JNIEXPORT void
+JNICALL JNI_packagename_GLESView_initGLES(JNIEnv *env, jobject object, jint width, jint height) {
+	setGraphics(env, width, height);
+}
+
+extern &quot;C&quot; JNIEXPORT void JNICALL JNI_packagename_GLESView_step(JNIEnv *env, jobject object) {
+	renderFrame();
+}
+
+float vertexBuffer[8] = {-1.0F, -1.0F, 1.0F, -1.0F, -1.0F, 1.0F, 1.0F, 1.0F};
+GLuint resolutionHandle;
+GLuint timeHandle;
+GLuint vertexPositionHandle;
+GLuint gProgram;
+float size[2];
+
+bool setGraphics(JNIEnv *env, int width, int height) {
+    
+    size[0] = width;
+    size[1] = height;
+    // 设置Shader
+    const char *VERTEX_SHADER_CODE = R&quot;(
+    	#version 300 es
+    	in vec3 vertexPosition;
+    	in vec2 vertexUV;
+    	out vec2 UV;
+    	
+    	void main() {
+    		UV = (vertexPosition.xy+1.0)/2.0;
+    	}
+    )&quot;;
+    const char *FRAGMENT_SHADER_CODE = R&quot;(
+    	#version 300 es
+    	precision highp float;
+    	
+    	out vec4 fragColor;
+    	
+    	uniform float iGlobalTime;
+    	uniform vec2 iResolution;
+    	
+    	void main() {
+    		vec2 uv = gl_FragCoord.xy / iResolution.xy;
+    		fragColor = vec4(fract(abs(sin(iGlobalTime))), uv.x, uv.y, 1.0);
+    	}
+    )&quot;;
+	gProgram = createProgram(VERTEX_SHADER_CODE, FRAGMENT_SHADER_CODE);
+    if (!gProgram) {
+        return false;
+    }
+    
+    // 获取Shader的输入点位置
+    resolutionhandle = (GLuint)glGetUniformLocation(gProgram, &quot;iResolution&quot;);
+    timeHandle = (GLuint) glGetUniformLocation(gProgram, &quot;iGlobalTime&quot;);
+    vertexPositionHandle = (GLuint) glGetAttribLocation(gProgram, &quot;vertexPosition&quot;);
+    
+    glViewport(0, 0, width, height);
+    glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
+    glClearStencil(0);
+    glClearDepthf(0);
+    
+    return true;
+}
+
+void renderFrame() {
+    float millisec = (float) clock() / (CLOCKS_PER_SEC/1000);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    
+    glUserProgram(gProgram);
+    
+    glUniform1f(timeHandle, millisec);
+    
+    glUniform2f(resolutionHandle, size[0], size[1]);
+    
+    glEnableVertexAttribArray(vertexPositionHandle);
+    glVertexAttribPointer(vertexPositionHandle, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), vertexBuffer)
+    
+}
+
+</code></pre>
+<p>回头我们再来实现这个createProgram()方法</p>
+<pre><code class='language-c++' lang='c++'>
+void checkGlError(const char* op) {
+    for (GLint error = glGetError(); error ; error = glGetError()) {
+        switch (error) {
+            case GL_INVALID_ENUM:
+                LOGE(TAG, &quot;Operation: %s Error: 0x%x(%s)&quot;, op, error, &quot;Invalid argument enum&quot;);
+                break;
+            case GL_INVALID_VALUE:
+                LOGE(TAG, &quot;Operation: %s Error: 0x%x(%s)&quot;, op, error, &quot;Invalid argument value&quot;);
+                break;
+            case GL_INVALID_OPERATION:
+                LOGE(TAG, &quot;Operation: %s Error: 0x%x(%s)&quot;, op, error, &quot;Invalid operation&quot;);
+                break;
+            case GL_OUT_OF_MEMORY:
+                LOGE(TAG, &quot;Operation: %s Error: 0x%x(%s)&quot;, op, error, &quot;Out Of Memory&quot;);
+                break;
+            case GL_INVALID_FRAMEBUFFER_OPERATION:
+                LOGE(TAG, &quot;Operation: %s Error: 0x%x(%s)&quot;, op, error, &quot;Frame Buffer Error&quot;);
+                break;
+            default:
+                LOGE(TAG, &quot;Operation: %s Error: 0x%x(%s)&quot;, op, error, &quot;Unknown Error&quot;);
+                break;
+        }
+    }
+}
+
+GLuint loadShader(GLenum shaderType, const char *pSource) {
+    GLuint shader = glCreateShader(shaderType);
+    if (shader) {
+        glShaderSource(shader, 1, &amp;pSource, NULL);
+        glCompileShader(shader);
+        GLint compiled = 0;
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &amp;compiled);
+        if (!compiled) {
+            GLint infoLen = 0;
+            glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &amp;infoLen);
+            if (infoLen) {
+                char buf[infoLen];
+                if (buf) {
+                    glGetShaderInfoLog(shader, infoLen, NULL, buf);
+                    LOGE(TAG, &quot;Could not compile shader %s: \n%s\n&quot;, shaderType == GL_VERTEX_SHADER ? &quot;Vertex Shader&quot;: &quot;Fragment Shader&quot;, buf);
+                    free(buf);
+                }
+                glDeleteShader(shader);
+                shader = 0;
+            }
+        }
+    }
+    return shader;
+}
+
+GLuint createProgram(const char *pVertexSource, const char *pFragmentSource) {
+    GLuint vertexShader = loadShader(GL_VERTEX_SHADER, pVertexSource);
+    if (!vertexShader)
+        return 0;
+    GLuint fragmentShader = loadShader(GL_FRAGMENT_SHADER, pFragmentSource);
+    if (!fragmentShader)
+        return 0;
+
+    GLuint program = glCreateProgram();
+    if (program) {
+        glAttachShader(program, vertexShader);
+        checkGlError(&quot;glAttachVertexShader&quot;);
+        glAttachShader(program, fragmentShader);
+        checkGlError(&quot;glAttachPixelShader&quot;);
+        glLinkProgram(program);
+        GLint linkStatus = GL_FALSE;
+        glGetProgramiv(program, GL_LINK_STATUS, &amp;linkStatus);
+        if (linkStatus != GL_TRUE) {
+            GLint bufLength = 0;
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &amp;bufLength);
+            if (bufLength) {
+                char buf[bufLength];
+                if (buf) {
+                    glGetProgramInfoLog(program, bufLength, NULL, buf);
+                    LOGE(TAG, &quot;Could not link program:\n%s\n&quot;, buf);
+                    free(buf);
+                }
+            }
+            glDeleteProgram(program);
+            program = 0;
+        }
+    }
+    return program;
+}
+</code></pre>
+<p>完成上述之后，我们将GLESView放到主布局内，运行APP即可得到一个随时间变化的渐变效果。上述代码仅仅是搭建了一个可以展示shader的程序，并且我们的模型只是一个和屏幕一样大小的平面，要想实现复杂的模型以及变换相机角度，我们要需要借助更多的库来完成，比如使用glm完成opengl中复杂的几何运算，使用微软的gltf库加载gltf模型等等。</p>

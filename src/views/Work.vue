@@ -1,6 +1,6 @@
 <template>
-  <div id="work" ref="content">
-    <img class="work-cover" :src="'/img/2x/' + cover">
+  <div id="work" ref="work">
+    <img class="work-cover" :src="'/img/2x/' + cover"/>
     <div class="work-title">{{title}}</div>
     <div class="work-brief">{{brief}}</div>
     <div class="work-tags">
@@ -23,6 +23,7 @@
 
 <script>
   import axios from 'axios'
+  import ImageView from "@/components/ImageView.vue";
 
   export default {
     name: "Work",
@@ -34,6 +35,9 @@
         tags: Array,
         links: Array
       }
+    },
+    components: {
+      ImageView
     },
     mounted() {
       let vm = this
@@ -50,7 +54,7 @@
           vm.links = work.links ? work.links : []
         })
         .catch(err => {
-          vm.$refs.content.innerHTML = err
+          vm.$refs.work.innerHTML = err
         })
     }
   }
@@ -68,6 +72,7 @@
   .work-cover {
     max-width: 600px;
     width: 100%;
+    height: 100%;
     object-fit: contain;
     border-radius: 4px;
   }
@@ -83,6 +88,7 @@
     font-size: 1.0em;
     color: #000000;
     opacity: 0.5;
+    min-height: 2.0em;
   }
 
   .work-tags {
@@ -111,6 +117,7 @@
   .work-link {
     display: flex;
     flex-flow: row;
+    padding: 4px 0;
   }
 
   .link-key {

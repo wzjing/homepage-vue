@@ -1,32 +1,27 @@
 @font-face {
-  font-family: PosterFont;
-  src: url("~@/assets/font/ExodusDemo-Sharpen.otf");
-}
-
-@font-face {
   font-family: CommonFont;
-  src: url("~@/assets/font/SF-Pro-Display-Bold.otf");
+  src: url("~@/assets/font/San-Francisco-Bold.ttf");
   font-weight: bold;
 }
 
 @font-face {
   font-family: CommonFont;
-  src: url("~@/assets/font/SF-Pro-Display-Medium.otf");
+  src: url("~@/assets/font/San-Francisco-Medium.ttf");
   font-weight: 500;
 }
 
 @font-face {
   font-family: CommonFont;
-  src: url("~@/assets/font/SF-Pro-Display-Regular.otf");
+  src: url("~@/assets/font/San-Francisco-Regular.ttf");
   font-weight: normal;
 }
 
 @font-face {
   font-family: CommonFont;
-  src: url("~@/assets/font/SF-Pro-Display-Light.otf");
+  src: url("~@/assets/font/San-Francisco-Thin.ttf");
   font-weight: 300;
 }
 
 @mixin font() {
-  font-family: "SF Pro Display", "SF Display", "San Francisco Display", CommonFont, "SimSun-ExtB", "Microsoft YaHei UI", sans-serif;
+  font-family: "San Francisco Display", CommonFont, "PingFang", "SimSun-ExtB", sans-serif;
 }

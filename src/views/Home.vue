@@ -138,6 +138,7 @@
     margin-top: 16px;
     font-size: 1.6em;
     color: #9f9f9f;
+    font-weight: 400;
     text-align: left;
   }
 

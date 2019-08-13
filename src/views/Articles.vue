@@ -1,16 +1,13 @@
 <template>
-  <div id="article">
+  <div id="articles">
     <div class="filter">
-      <div class="filter--title">
-        Articles
-      </div>
+      <div class="filter--title">Articles</div>
       <div class="filter--list">
-        <div
-                v-for="(value, index) in filters"
-                :key="index"
-                class="filter--item"
-                :class="{'filter--item--selected' : filterIndex === index}"
-                @click="filterIndex = index">
+        <div v-for="(value, index) in filters"
+             :key="index"
+             class="filter--item"
+             :class="{'filter--item--selected' : filterIndex === index}"
+             @click="filterIndex = index">
           {{value}}
         </div>
       </div>
@@ -54,13 +51,13 @@
     },
     computed: {
       filterList: function () {
-        let vue = this
-        if (vue.filters[vue.filterIndex] === "ALL") {
-          return vue.articles
+        let vm = this
+        if (vm.filters[vm.filterIndex] === "ALL") {
+          return vm.articles
         } else {
-          return vue.articles.filter((item) => {
+          return vm.articles.filter((item) => {
             return item.tags.find((tag) => {
-              return vue.filters[vue.filterIndex] === tag
+              return vm.filters[vm.filterIndex] === tag
             })
           })
         }
@@ -84,7 +81,7 @@
         .then(res => {
           vm.articles = res.data.data
         })
-        .catch(err =>{
+        .catch(err => {
           console.log(err)
         })
     }
@@ -92,7 +89,7 @@
 </script>
 
 <style scoped lang="scss">
-  #article {
+  #articles {
     display: flex;
     padding-top: 54px;
     flex-flow: row;

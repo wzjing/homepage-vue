@@ -1,7 +1,18 @@
 {
   "data": [
     {
-      "url": "/article/Build-FFmpeg-For-Android",
+      "url": "/article/2019-What-is-New-in-Android",
+      "title": "2019 What's New in Android",
+      "brief": "Google I/o 2019 已经结束，Android也正是迎来Q版本以及一系列的API更新和工具更新",
+      "cover": "google-io.jpg",
+      "type": 0,
+      "tags": [
+        "ANDROID",
+        "FEATURE"
+      ]
+    },
+    {
+      "url": "/article/Build-FFmpeg-for-Android",
       "title": "Build FFmpeg for Android",
       "brief": "在linux下编译Android版本的ffmpeg动态库，附自动编译脚本",
       "cover": "code.jpg",
@@ -23,14 +34,14 @@
       ]
     },
     {
-      "url": "/article/2019-What-is-New-in-Android",
-      "title": "2019 What's New in Android",
-      "brief": "Google I/o 2019 已经结束，Android也正是迎来Q版本以及一系列的API更新和工具更新",
-      "cover": "google-io.jpg",
+      "url": "/article/FFmpeg-Guide",
+      "title": "FFmpeg Guide",
+      "brief": "初学者入门ffmpeg指导",
+      "cover": "ffmpeg.jpg",
       "type": 0,
       "tags": [
         "ANDROID",
-        "FEATURE"
+        "FFMPEG"
       ]
     }
   ]
