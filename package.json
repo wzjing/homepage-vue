@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "build:test": "serve -s dist",
     "lint": "vue-cli-service lint",
-    "deploy": ".\\deploy.bat",
+    "deploy:bat": ".\\deploy.bat",
+    "deploy:sh": "./deploy.sh",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },

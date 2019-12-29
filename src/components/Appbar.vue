@@ -34,6 +34,10 @@
           {
             path: '/about',
             name: 'ABOUT'
+          },
+          {
+            path: '/editor',
+            name: 'EDITOR'
           }
         ]
       }
@@ -86,7 +90,7 @@
       line-height: $bar-height;
       text-align: center;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: rgba(#000000, 0.5);
       margin: 0 18px;
       text-decoration: none;

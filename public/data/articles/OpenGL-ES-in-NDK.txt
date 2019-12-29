@@ -1,11 +1,13 @@
 <blockquote><p>OpenGL通常会涉及到很多的计算和I/O操作，在java中使用OpenGL并不是一个明智的选择。在Android中可以通过jni实现在Native中调用OpenGL ES的API。</p>
 </blockquote>
+<br/>
 <h2>新建Native的工程</h2>
 <p>新建一个Android Native工程。修改CMakeLists文件的如下部分：</p>
 <pre><code class='language-shell' lang='shell'># 添加OpenGL ES相关的库
 target_link_libraries(native-lib log android EGL GLESv3)
 </code></pre>
 <p>修改完CMakeLists.txt文件一定要使用Build-&gt;Refresh Linked C++ Projects选项刷新工程。</p>
+<br/>
 <h2>准备GLSurfaceView</h2>
 <p>创建一个GLSurfaceView的子类，如下：</p>
 <pre><code class='language-kotlin' lang='kotlin'>class GLESView(context: Context): GLSurfaceView(context) {
@@ -40,6 +42,7 @@ target_link_libraries(native-lib log android EGL GLESv3)
     }
 }
 </code></pre>
+<br/>
 <h2>编写Native实现</h2>
 <pre><code class='language-c++' lang='c++'>#include &lt;jni.h&gt;
 #include &lt;cstdlib&gt;

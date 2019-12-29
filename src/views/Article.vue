@@ -4,11 +4,11 @@
     <div class="article-tags">
       <div class="article-tag"
            v-for="(value, index) in tags"
-           :index="index">
+           :key="index">
         #{{value}}
       </div>
     </div>
-    <div ref="article_content">
+    <div ref="article_content" class="article--content">
     </div>
   </div>
 </template>
@@ -80,8 +80,8 @@
   }
 
   #article {
-    width: 80%;
-    max-width: 800px;
+    width: 85%;
+    max-width: 540px;
     text-align: left;
     padding: 16px 0 48px;
     background: #ffffff;
@@ -90,20 +90,32 @@
 
   .article-title {
     margin: 12px 0 0;
-    font-size: 1.8em;
-    font-weight: 300;
+    font-size: 1.3em;
+    font-weight: 500;
   }
 
   .article-tags {
-    margin: 10px 0 48px;
+    margin-top: 20px;
     display: flex;
     flex-flow: row;
     color: #ff9700;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-weight: 500;
   }
 
   .article-tag {
     margin: 0 12px 0 0;
+    background-color: #b8bfc2;
+    color: #ffffff;
+    padding: 5px 8px;
+    line-height: 1.0em;
+    border-radius: calc(0.5em + 5px);
+  }
+
+  .article--content {
+    margin-top: 28px;
+    font-size: 14px;
+    color: #545454;
+    line-height: 22px;
   }
 </style>

@@ -6,6 +6,7 @@ import Articles from './views/Articles.vue'
 import Work from './views/Work.vue'
 import Works from './views/Works.vue'
 import About from './views/About.vue'
+import Editor from "@/views/Editor";
 
 Vue.use(Router)
 
@@ -47,6 +48,12 @@ export default new Router({
       path: '/work/:id',
       name: 'work',
       component: Work
+    },
+
+    {
+      path: '/editor',
+      name: 'editor',
+      component: Editor
     }
   ]
 })

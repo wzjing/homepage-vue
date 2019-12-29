@@ -1,53 +1,58 @@
+<blockquote>
+<p>移植ffmpeg到Android系统，对ffmpeg进行跨平台编译并修改其中的功能模块组成，仅编译需要的功能
+</p>
+</blockquote>
+<br/>
 <h2>编译环境</h2>
-<p>由于Android是Linux内核，最好选择Linux环境进行编译。本文的所有工作均在Ubuntu 18.0.4 LTS完成。</p>
-<p>软件包：</p>
+<p>Android是Linux内核，最好是在Linux下进行编译。本文采用Ubuntu 18.0.4 LTS系统进行编译。</p>
+<br/>
+<p>编译工具🛠</p>
+<br/>
 <ul>
-<li>git</li>
-<li>ndk R20</li>
-<li>make</li>
+<li>git — npm install git</li>
+<li>make — npm install make</li>
+<li>ndk R20 — <a href="https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip">下载地址</a>
+</li>
 </ul>
-<p>由于NDK已经包含了所有工具链，因此我们不在需要额外的安装gcc或clang了</p>
-<h2>准备源码</h2>
-<ul>
-<li>ffmpeg仓库地址：https://git.ffmpeg.org/ffmpeg.git</li>
-</ul>
-<pre><code>git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg-build/ffmpeg
+<br/>
+<h2>编译源码</h2>
+<ol style="counter-reset:ol 0">
+<li>克隆源码</li>
+</ol>
+<p>使用git工具从仓库克隆最新源码：</p>
+<pre><code class="shell">git clone https://git.ffmpeg.org/ffmpeg.git workspace/ffmpeg
 </code></pre>
-<h2>初始化编译环境</h2>
-<p>我们需要将ndk的工具链地址暴露给ffmpeg的编译脚本</p>
-<pre><code class="bash"># 进入工作目录
-cd ffmpeg-build
+<br/>
+<ol style="counter-reset:ol 1">
+<li>编译环境</li>
+</ol>
+<p> 我们需要将NDK的工具链暴露到环境变量中，并且修改默认的编译变量的值，如$cc </p/>
+<pre><code class="language-shell">cd workspace
 
-# 设置abi版本
-CROSS_PREFIX=arm64
-# 最低api版本
-MIN_API=21
-# ndk位置
-NDK_ROOT=/path/to/ndk
-TOOLCHAIN=$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64
-
-
-# 最好使用clang进行编译，Google已经抛弃了gcc
-export CC=${CROSS_PREFIX}${MIN_API}-clang
-export CXX=${CROSS_PREFIX}${MIN_API}-clang++
+$MIN_API=21
+export $ARCH=arm64
+export $TOOLCHAIN=/path/to/ndk
+export $INSTALL_DIR=`pwd`/build/$ARCH
+export $CROSS_PREFIX=&quot;aarch64-linux-android&quot;
+export CC=armv7a-linux-androideabi${MIN_API}-clang
+export CXX=armv7a-linux-androideabi${MIN_API}-clang++
 export AR=$CROSS_PREFIX-ar
 export AS=$CC
 export LD=$CROSS_PREFIX-ld
 export STRIP=$CROSS_PREFIX-strip
 export PATH=$PATH:$TOOLCHAIN/bin
-</code></pre>
-<h2>配置ffmpeg选项</h2>
-<p>通过ffmpeg源码中的config文件启用或者关闭功能，添加编译和链接的参数</p>
-<pre><code class="bash"># 进入ffmpeg源码目录
 
 EXTRA_CFLAGS=&quot;-fPIC -fPIE&quot;
 EXTRA_LDFLAGS=&quot;-fpie&quot;
-PREFIX=`pwd`/build/arm64
-LOG_FILE=$PREFIX/build.log
+</code></pre>
+<br/>
+<ol style="counter-reset:ol 2">
+<li>配置configure</li>
+</ol>
+<p>对ffmpeg的自带模块和编译选项做一些必要的配置，这里列出一个常用的编译配置，其他的一些编译选项可自行使用<code>./configure --help</code>进行查看</p>
+<pre><code class="language-shell">cd ffmpeg
 
-cd ffmpeg/
-
-./config --enable-gpl \
+./configure --enable-gpl \
     --enable-version3 \
     --enable-nonfree \
     --target-os=android \
@@ -55,7 +60,7 @@ cd ffmpeg/
     --enable-shared \
     --enable-pic \
     --arch=arm64 \
-    --prefix=$PREFIX \
+    --prefix=$INSTALL_DIR \
     --sysroot=$TOOLCHAIN/sysroot \
     --enable-small \
     --disable-programs \
@@ -63,16 +68,55 @@ cd ffmpeg/
     --enable-debug \
     --enable-mediacodec \
     --enable-jni \
-    --logfile=$LOG_FILE \
+    --logfile=$CONFIGURE_LOG \
     --enable-cross-compile \
-    --cross-prefix=${CROSS_PREFIX}- \
+    --cross-prefix=$CROSS_PREFIX- \
+    --cc=$CC \
+    --cxx=$CXX \
+    --objcc=$CC \
+    --dep-cc=$CC \
+    --pkg-config=pkg-config \
     --extra-cflags=&quot;$EXTRA_CFLAGS&quot; \
     --extra-ldflags=&quot;$EXTRA_LDFLAGS&quot;
 </code></pre>
-<h2>编译</h2>
-<pre><code class="bash">make clean
+<ul>
+<li>通过prefix选项设置编译结果的保存目录</li>
+<li>关闭doc、programs生成、静态库生成等一些不必要的功能</li>
+<li>设置android编译参数，target-os设置为android，cpu的arch设置为arm64，sysroot设置为ndk的sysroot路径</li>
+<li>硬件解码的支持，ffmpeg可以开启对android硬件解码的支持，可以极大的提升解码效率，需要启动mediacodec和jni，但是并不支持硬件编码😔</li>
+<li>设置关于编译及优化相关的选项，比如pic，pkg-config，cc，等，还可以添加额外的编译参数和连接参数</li>
+</ul>
+<br/>
+<ol style="counter-reset:ol 3">
+<li>开始编译</li>
+</ol>
+<p>根据自己的cpu核心数设置编译可用的最大线程，一般最好等于cpu的核心数</p>
+<pre><code class="language-shell">make clean
 make -j 4
 make install
 </code></pre>
+<br/>
 <h2>使用</h2>
-<p>编译结果存放在了ffmpeg/build目录下，包括动态库文件和头文件。将动态库和头文件放入Android Studio工程下的jniLibs目录，并在CMakeLists.txt中导入即可使用。</p>
+<p>在Android Studio工程中加入C++支持，或新建支持C++的Android工程，相关设置可自行按照Android Studio引导操作，我们主要关心一下CMake的相关设置
+</p>
+<br/>
+<ol>
+<li>首先在Android Studio工程的jniLibs目录下新建arm64目录，将生成的so动态库文件和include头文件拷贝到此文件夹</li>
+<li>在CMakeLists.txt中添加ffmpeg的库</li>
+</ol>
+<pre><code class="language-cmake">set(JNI_LIBS &quot;../src/main/jniLibs&quot;)
+function(import_library name type filename)
+    add_library(${name} ${type} IMPORTED)
+    set_target_properties(${name} PROPERTIES IMPORTED_LOCATION ${JNI_LIBS}/${CMAKE_ANDROID_ARCH_ABI}/${filename})
+endfunction()
+
+import_library(avcodec SHARED libavcodec.so)
+import_library(avformat SHARED libavformat.so)
+import_library(avfilter SHARED libavfilter.so)
+import_library(avutil SHARED libavutil.so)
+import_library(swresample SHARED libswresample.so)
+import_library(swscale SHARED libswscale.so)
+
+include_directories(&quot;${JNI_LIBS}/include&quot;)
+</code></pre>
+<br/>
