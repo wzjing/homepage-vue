@@ -31,6 +31,7 @@
     margin: 0;
     width: 100%;
     height: auto;
+    min-height: calc(100% - 64px);
   }
 
   #app {
@@ -39,6 +40,7 @@
     margin: auto;
     width: 100%;
     height: auto;
+    min-height: calc(100vh - 64px);
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -52,7 +54,9 @@
   }
 
   .router-layout {
+    position: relative;
     margin: 64px auto 0;
+    min-height: calc(100vh - 64px);
   }
 
 </style>
