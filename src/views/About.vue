@@ -14,27 +14,6 @@
     name: 'About',
     data() {
       return {
-        location: 'BEIJING',
-        experience: 3,
-        mail: 'wzjing@163.com',
-        abilities: ["UX", "JNI", "OpenGL", "FFmpeg", "WebApp", "VUE"],
-        apps: [
-          {
-            name: 'Binge',
-            logo: ICBinge,
-            url: '/work/binge'
-          },
-          {
-            name: 'Fro',
-            logo: ICFro,
-            url: '/work/fro'
-          }
-        ]
-      }
-    },
-    methods: {
-      sendEmail() {
-        parent.location.href = `mailto:wzjing103@163.com?subject=面试邀请`
       }
     }
   }
@@ -60,11 +39,13 @@
   .content {
     height: 100%;
     display: flex;
+    align-items: center;
     flex-flow: column;
+    justify-content: center;
   }
 
   .title {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
   }
 
 </style>

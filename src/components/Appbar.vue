@@ -32,8 +32,8 @@
             name: 'CODE & DESIGN'
           },
           {
-            path: '/about',
-            name: 'ABOUT'
+            path: '/publish',
+            name: 'PUBLISH'
           }
         ]
       }
@@ -43,12 +43,12 @@
 
 <style scoped lang="scss">
 
-  $bar-height: 64px;
+  @import "../styles/theme.scss";
 
   .appbar {
     position: relative;
     width: 100%;
-    height: $bar-height;
+    height: $app-bar-height;
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -76,14 +76,14 @@
 
   .menu {
     flex: 0 0 auto;
-    height: $bar-height;
+    height: $app-bar-height;
     display: flex;
     flex-flow: row;
     align-items: center;
 
     a {
-      height: $bar-height;
-      line-height: $bar-height;
+      height: $app-bar-height;
+      line-height: $app-bar-height;
       text-align: center;
       font-size: 13px;
       font-weight: 600;
