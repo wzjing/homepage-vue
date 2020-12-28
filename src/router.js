@@ -5,7 +5,7 @@ import Article from './views/Article.vue'
 import Articles from './views/Articles.vue'
 import Work from './views/Work.vue'
 import Works from './views/Works.vue'
-import About from './views/About.vue'
+import Publish from './views/Publish.vue'
 
 Vue.use(Router)
 
@@ -32,12 +32,6 @@ export default new Router({
     },
 
     {
-      path: '/about',
-      name: 'about',
-      component: About
-    },
-
-    {
       path: '/article/:id',
       name: 'article',
       component: Article
@@ -47,6 +41,12 @@ export default new Router({
       path: '/work/:id',
       name: 'work',
       component: Work
+    },
+
+    {
+      path: '/publish',
+      name: 'publish',
+      component: Publish
     }
   ]
 })
