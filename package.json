@@ -23,7 +23,7 @@
     "@vue/cli-plugin-unit-jest": "^4.5.4",
     "@vue/cli-service": "^4.5.4",
     "@vue/test-utils": "^1.0.5",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "babel-jest": "^26.3.0",
     "eslint": "^7.7.0",
     "highlight.js": "^10.1.2",
