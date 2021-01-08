@@ -56,7 +56,6 @@
     padding: 5px 30px;
     outline: none;
     @include font();
-    animation: raise-reverse 220ms;
     transition: all .2s;
     text-transform: uppercase;
 
@@ -64,11 +63,11 @@
       border: 0;
       margin-top: 20vh;
       box-shadow: 0 40px 40px 0 rgba(0, 0, 0, 0.08);
-      animation: raise 0.2s normal;
+      transition: all 0.12s;
     }
 
     &:not(:focus) {
-      animation: raise 120ms reverse;
+      transition: all .12s ease-out;
     }
 
     @media screen and(max-width: 40rem) {
@@ -78,30 +77,21 @@
 
   }
 
-  @keyframes raise {
-    0% {
-      margin-top: 0;
-      box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.08);
-    }
-
-    100% {
-      margin-top: 20vh;
-      box-shadow: 0 40px 40px 0 rgba(0, 0, 0, 0.08);
-    }
-  }
-
   .template-list {
+    display: inline-grid;
     margin-top: 24px;
-    width: 40rem;
+    grid-gap: 1rem;
+    width: 80vw;
+    grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   }
 
   .template-item {
+    display: inline-block;
     background-color: white;
     box-shadow: 0 40px 40px 0 rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
     alignment: center;
+    line-height: 6rem;
     border-radius: 4px;
-    min-height: 6rem;
-    margin: 10px 0;
   }
 </style>
