@@ -55,12 +55,13 @@
 
   #appbar {
     position: fixed;
+    margin: auto;
     top: 0;
   }
 
   .router-layout {
     position: relative;
-    margin: 64px auto 0;
+    margin: #{$app-bar-height} auto 0;
     min-height: calc(100vh - #{$app-bar-height});
   }
 
