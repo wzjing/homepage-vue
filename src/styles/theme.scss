@@ -1,29 +1,39 @@
 $app-bar-height: 104px;
-
+$mobile-max-width: 600px;
 @font-face {
-  font-family: CommonFont;
-  src: url("~@/assets/font/San-Francisco-Bold.ttf");
-  font-weight: bold;
+    font-family: CommonFont;
+    src: url("~@/assets/font/San-Francisco-Bold.ttf");
+    font-weight: bold;
 }
 
 @font-face {
-  font-family: CommonFont;
-  src: url("~@/assets/font/San-Francisco-Medium.ttf");
-  font-weight: 500;
+    font-family: CommonFont;
+    src: url("~@/assets/font/San-Francisco-Medium.ttf");
+    font-weight: 500;
 }
 
 @font-face {
-  font-family: CommonFont;
-  src: url("~@/assets/font/San-Francisco-Regular.ttf");
-  font-weight: normal;
+    font-family: CommonFont;
+    src: url("~@/assets/font/San-Francisco-Regular.ttf");
+    font-weight: normal;
 }
 
 @font-face {
-  font-family: CommonFont;
-  src: url("~@/assets/font/San-Francisco-Thin.ttf");
-  font-weight: 300;
+    font-family: CommonFont;
+    src: url("~@/assets/font/San-Francisco-Thin.ttf");
+    font-weight: 300;
 }
 
 @mixin font() {
-  font-family: "San Francisco Display", CommonFont, "PingFang", "SimSun-ExtB", sans-serif;
+    font-family: "San Francisco Display", CommonFont, "PingFang", "SimSun-ExtB", sans-serif;
+}
+
+:root {
+    --app-bar-height: 104px;
+}
+
+@media screen and (max-width: $mobile-max-width) {
+     :root {
+        --app-bar-height: 64px;
+    }
 }

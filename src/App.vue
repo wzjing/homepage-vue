@@ -31,7 +31,7 @@
     margin: 0;
     width: 100%;
     height: calc(100% + 17px);
-    min-height: calc(100% - #{$app-bar-height});
+    min-height: calc(100% - var(--app-bar-height));
     overflow: hidden;
     box-sizing: content-box;
   }
@@ -42,7 +42,7 @@
     margin: auto;
     width: 100%;
     height: 100%;
-    min-height: calc(100vh - #{$app-bar-height});
+    min-height: calc(100vh - var(--app-bar-height));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -61,8 +61,8 @@
 
   .router-layout {
     position: relative;
-    margin: #{$app-bar-height} auto 0;
-    min-height: calc(100vh - #{$app-bar-height});
+    margin: var(--app-bar-height) auto 0;
+    min-height: calc(100vh - var(--app-bar-height));
   }
 
 </style>

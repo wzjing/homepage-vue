@@ -54,13 +54,15 @@
   .appbar-wrapper {
     position: relative;
     width: 100%;
-    height: $app-bar-height;
+    height: var(--app-bar-height);
     display: flex;
     flex-flow: row;
     align-items: center;
     justify-content: center;
     z-index: 3;
     background: linear-gradient(to bottom, #FFFFFF, transparent);
+
+    transition: all .24s ease-in-out;
   }
 
   .appbar {
@@ -79,12 +81,14 @@
     border-radius: 8px;
     box-shadow: 0 2px 40px 0 rgba(0, 0, 0, 0.08);
 
-    @media screen and (max-width: 1220px) {
+    transition: all .24s ease-in-out;
+
+    @media screen and (max-width: $mobile-max-width) {
       width: 100%;
-    }
-    @media screen and (max-width: 500px) {
-      justify-content: flex-start;
+      // justify-content: center;
       padding: 0 12px;
+
+      transition: all .24s ease-in-out;
     }
   }
 
